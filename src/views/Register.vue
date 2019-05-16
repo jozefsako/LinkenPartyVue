@@ -22,7 +22,7 @@
           >
             <template>
               <div class="text-muted text-center mb-3">
-                <small>Sign in</small>
+                <h1 class="display-2 mb-0">Sign in</h1>
               </div>
               <form role="form">
                 <base-input
@@ -61,42 +61,51 @@
                   placeholder
                   addon-left-icon="ni ni-mobile-button"
                 ></base-input>
-                <base-input
-                  alternative
-                  placeholder="Birthday"
-                  addon-left-icon="ni ni-calendar-grid-58"
-                >
-                  <datepicker></datepicker>
-                </base-input>
-                <base-input addon-left-icon="ni ni-ui-04">
-                  type user:
-                  <label class="custom-toggle">
+                <base-input alternative type="date" addon-left-icon="ni ni-calendar-grid-58"></base-input>
+                <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
+                  <div>
+                    <small class="text-uppercase font-weight-bold">Gender:</small>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input
+                      id="man"
+                      type="radio"
+                      name="sex"
+                      class="custom-control-input"
+                      value="man"
+                    >
+                    <label for="man" class="custom-control-label">Man</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input
+                      id="woman"
+                      type="radio"
+                      name="sex"
+                      class="custom-control-input"
+                      value="woman"
+                    >
+                    <label for="woman" class="custom-control-label">Woman</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input
+                      id="other"
+                      type="radio"
+                      name="sex"
+                      class="custom-control-input"
+                      value="other"
+                    >
+                    <label for="other" class="custom-control-label">Other</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
+                  <div>
+                    <small class="text-uppercase font-weight-bold">Organizer?</small>
+                  </div>
+                  <label class="custom-toggle custom-radio">
                     <input type="checkbox">
                     <span class="custom-toggle-slider rounded-circle"></span>
                   </label>
-                </base-input>
-                <base-input addon-left-icon="ni ni-ui-04">
-                  <div class="dropdown">
-                    <a
-                      href="#"
-                      class="btn btn-default dropdown-toggle"
-                      data-toggle="dropdown"
-                      id="navbarDropdownMenuLink2"
-                    >Sex</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                      <li>
-                        <a class="dropdown-item" href="#" addon-left-icon="ni ni-icon-male">Male</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#" addon-left-icon="ni ni-icon-female">Female</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#" addon-left-icon="ni ni-icon-random">Other</a>
-                      </li>
-                    </ul>
-                  </div>
-                </base-input>
-
+                </div>
                 <div class="text-center">
                   <router-link to="/home">
                     <base-button type="primary" class="my-4">Create account</base-button>
@@ -118,9 +127,7 @@
   </section>
 </template>
 <script>
-//import Datepicker from 'vuejs-datepicker';
 export default {
-  //components: Datepicker
 };
 </script>
 <style>

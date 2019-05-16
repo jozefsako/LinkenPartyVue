@@ -19,7 +19,7 @@
                           class="border-0">
                           <template>
                             <div class="text-muted text-center mb-3">
-                                <small>Log in</small>
+                                <h1 class="display-2 mb-0">Log in</h1>
                             </div>
                             <form role="form">
                                 <base-input alternative
