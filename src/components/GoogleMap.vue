@@ -1,10 +1,6 @@
 <template>
     <div class="google-map" :id="mapName">
-      <div v-for="party in partyList" :key="party.id">
-        {{party.title}}
-      </div>
     </div>
-    
 </template>
 
 <script>
@@ -22,7 +18,6 @@ export default {
   
   
   mounted: function () {
-    console.log(partyList);
     var initialLocation;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
