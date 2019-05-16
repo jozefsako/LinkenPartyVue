@@ -1,17 +1,28 @@
 <template>
-    <div class="google-map" :id="mapName"></div>
+    <div class="google-map" :id="mapName">
+      <div v-for="party in partyList" :key="party.id">
+        {{party.title}}
+      </div>
+    </div>
+    
 </template>
 
 <script>
+
 export default {
   name: 'google-map',
   props: ['name'],
+  
   data: function () {
     return {
       mapName: this.name + "-map",
+      partyList: []
     }
   },
+  
+  
   mounted: function () {
+    console.log(partyList);
     var initialLocation;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -27,6 +38,24 @@ export default {
       center: initialLocation,
       disableDefaultUI: true
     }
+
+
+      var geocoder = new google.maps.Geocoder();
+
+             var address = "Rue Antoine Dansaert 6, 1000";
+
+              geocoder.geocode( { 'address': address}, function(results, status) {
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                  var latitude = results[0].geometry.location.lat();
+                  var longitude = results[0].geometry.location.lng();
+                  var location = new google.maps.LatLng(latitude, longitude);
+                  var marker = new google.maps.Marker({ position: location, map:map});
+                  marker.setMap(map);
+                  
+                } 
+        });
+
     const map = new google.maps.Map(element, options);
   }
 };

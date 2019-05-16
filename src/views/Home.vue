@@ -1,5 +1,6 @@
 <template>
     <div class="profile-page">
+        <my-header></my-header>
         <section class="section-profile-cover section-shaped my-0">
             <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
                 <span></span>
@@ -20,7 +21,7 @@
                         </div>
                         <div class="text-center mt-5">
                             <h3>Tendance</h3>                        
-                            <Parties></Parties>
+                            <Parties :Parties="Parties"></Parties>
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
@@ -34,18 +35,24 @@
                 </card>
             </div>
         </section>
+        <my-footer></my-footer>
     </div>
 </template>
 <script>
 
 import GoogleMap from '../components/GoogleMap.vue'
 import Parties from '../components/PartyList.vue'
+import header from "../layout/AppHeaderReveler.vue"
+import footer from "../layout/AppFooter.vue"
+
 
 export default {
   name: 'google-map',
   components:{
       GoogleMap,
-      Parties
+      Parties,
+      'my-header': header,
+      'my-footer': footer
   },
 };
 
