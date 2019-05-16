@@ -44,13 +44,13 @@
         height: 100%;
 
         span {
-            position: absolute;
+            position: relative;
         }
 
         +.container {
             position: relative;
             padding-top: 6rem;
-            padding-bottom: 0rem;
+            padding-bottom: 6rem;
             height: 100%;
         }
 
@@ -58,6 +58,7 @@
 
             +.container {
                 padding-top: 0;
+                padding-bottom: 0;
 
                 .col {
                     margin-top: -100px;
@@ -66,7 +67,7 @@
 
             + .shape-container {
                 padding-top: 18rem;
-                padding-bottom: 19rem;
+                padding-bottom: 18rem;
             }
         }
     }

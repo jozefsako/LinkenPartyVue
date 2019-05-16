@@ -1,5 +1,5 @@
 <template>
-    <section class="section section-shaped section-lg my-0">
+    <section class="section section-shaped section-lg my-0 my-0">
         <div class="shape shape-style-1 bg-gradient-default">
             <span></span>
             <span></span>
@@ -33,7 +33,7 @@
                                             addon-left-icon="ni ni-lock-circle-open">
                                 </base-input>
                                 <div class="text-center">
-                                    <router-link to="/home">
+                                    <router-link to="/homeReveler">
                                         <base-button type="primary" class="my-4">Sign In</base-button>
                                     </router-link>
                                 </div>

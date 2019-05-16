@@ -107,7 +107,7 @@
                   </label>
                 </div>
                 <div class="text-center">
-                  <router-link to="/home">
+                  <router-link to="/homeReveler">
                     <base-button type="primary" class="my-4">Create account</base-button>
                   </router-link>
                 </div>

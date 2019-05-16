@@ -2,7 +2,8 @@ import Vue from "vue"
 import VueRouter from 'vue-router'
 import Login from "./views/Login.vue"
 import Register from "./views/Register.vue"
-import Home from "./views/Home.vue"
+import HomeOrganizer from "./views/HomeOrganizer.vue"
+import HomeReveler from "./views/HomeReveler.vue"
 
 Vue.use(VueRouter);
 
@@ -20,10 +21,15 @@ export default new VueRouter({
       component: Register
     },
     {
-      path: '/home',
-      name: 'Home',
-      component: Home
+      path: '/homeOrganizer',
+      name: 'HomeOrganizer',
+      component: HomeOrganizer
     },
+    {
+      path: '/homeReveler',
+      name: 'HomeReveler',
+      component: HomeReveler
+    }
   ],
   scrollBehavior: to => {
     if (to.hash) {

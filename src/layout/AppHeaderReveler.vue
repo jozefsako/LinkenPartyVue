@@ -1,7 +1,7 @@
 <template>
     <header class="header-global">
         <base-nav class="navbar-main" transparent type="" effect="light" expand>
-            <router-link slot="brand" class="navbar-brand mr-lg-5" to="/home">
+            <router-link slot="brand" class="navbar-brand mr-lg-5" to="/homeReveler">
                 LinkenParty
             </router-link>
 
@@ -20,11 +20,11 @@
                 <li>
                     <router-link to="/" slot="title"  class="nav-link" role="button">
                         <i class="ni ni-ui-04 d-lg-none"></i>
-                        <span class="nav-link-inner--text">Components</span>
+                        <span class="nav-link-inner--text">Past</span>
                     </router-link></li><li>
                     <router-link to="/register" slot="title" class="nav-link"  role="button">
                         <i class="ni ni-collection d-lg-none"></i>
-                        <span class="nav-link-inner--text">Examples</span>
+                        <span class="nav-link-inner--text">Future</span>
                     </router-link></li>
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
