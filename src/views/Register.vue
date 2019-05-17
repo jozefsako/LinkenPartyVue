@@ -101,10 +101,7 @@
                   <div>
                     <small class="text-uppercase font-weight-bold">Organizer?</small>
                   </div>
-                  <label class="custom-toggle custom-radio">
-                    <input type="checkbox">
-                    <span class="custom-toggle-slider rounded-circle"></span>
-                  </label>
+                  <base-switch type="checkbox" value="true"></base-switch>
                 </div>
                 <div class="text-center">
                   <router-link to="/homeReveler">
@@ -127,8 +124,7 @@
   </section>
 </template>
 <script>
-export default {
-};
+export default {};
 </script>
 <style>
 </style>
