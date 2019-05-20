@@ -40,7 +40,8 @@ export default new VueRouter({
     {
       path: '/partyDetails/:partyId',
       name: 'PartyDetails',
-      component: PartyDetails
+      component: PartyDetails,
+      params: true
     }
   ],
   scrollBehavior: to => {

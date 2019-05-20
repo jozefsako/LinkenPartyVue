@@ -1,49 +1,71 @@
 <template>
-    <div class="profile-page">
-        <my-header></my-header>
-        <section class="section-profile-cover section-shaped my-0">
-            <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+  <div class="profile-page">
+    <my-header></my-header>
+    <section class="section-profile-cover section-shaped my-0">
+      <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </section>
+    <section class="section section-skew">
+      <div class="container">
+        <card shadow class="card-profile mt--300" no-body>
+          <div class="px-4">
+            <div class="row justify-content-center">
+              <GoogleMap ref='GoogleMap'></GoogleMap>
             </div>
-        </section>
-        <section class="section section-skew">
-            <div class="container">
-                <card shadow class="card-profile mt--300" no-body>
-                    <div class="px-4">
-                        <div class="row justify-content-center">
-                            <GoogleMap ref='GoogleMap'></GoogleMap>
-                        </div>
-                        <div class="text-center mt-5">
-                        {{this.$route.params}}
-                        </div>
-                    </div>
-                </card>
-            </div>
-        </section>
-        <my-footer></my-footer>
-    </div>
+            <div class="text-center mt-5">{{this.$route.params}}</div>
+          </div>
+        </card>
+      </div>
+    </section>
+    <my-footer></my-footer>
+  </div>
 </template>
 
 <script>
-import GoogleMap from "../components/GoogleMap.vue"
-import header from "../layout/AppHeaderReveler.vue"
-import footer from "../layout/AppFooter.vue"
+import GoogleMap from "../components/GoogleMap.vue";
+import header from "../layout/AppHeaderReveler.vue";
+import footer from "../layout/AppFooter.vue";
 
 export default {
-    components:{
-        'GoogleMap': GoogleMap,
-        'my-header': header,
-        'my-footer': footer
-    },
-    created: function(){
-        console.log(this.$route.params);
-    }
-}
-
+  components: {
+    'GoogleMap': GoogleMap,
+    "my-header": header,
+    "my-footer": footer
+  },
+  data: function(){
+      return {
+          currentParty: {}
+      }
+  },
+  created: function() {
+    //this.getParty(this.$route.params.partyId);
+    console.log(this.$route.params.partyId);
+    
+  },
+  mounted: function(){
+      this.$refs.GoogleMap.displayRoute("rue Lincoln 22, Uccle");
+  },
+  methods: {
+    /*getParty: function(id) {
+      this.loading = true;
+      this.$http
+        .get(`https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/event/${id}`)
+        .then(response => {
+          this.currentParty = response.data;
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err);
+        });
+    }*/
+  }
+};
 </script>

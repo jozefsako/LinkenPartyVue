@@ -54,6 +54,7 @@ export default {
       displayParties : function(){
           this.$refs.PartyList.sendParties(this.$refs.PartyList.parties);
           this.$refs.GoogleMap.displayMarkers();
+          this.$refs.GoogleMap.displayCurrentPosition();
       }
   }
 };

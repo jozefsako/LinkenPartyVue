@@ -14,7 +14,7 @@
               <span class="badge badge-pill badge-primary">{{party.fields.style}}</span>
             </div>
             
-            <router-link :to="{ path: '/partyDetails/:'+party.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
+            <router-link :to="{ path: '/partyDetails/'+ party.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
           </div>
         </div>
       </div>

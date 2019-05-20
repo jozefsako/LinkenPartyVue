@@ -4,6 +4,7 @@
 
 <script>
 var map;
+var initialLocation;
 export default {
   name: "google-map",
   props: ["name"],
@@ -15,7 +16,6 @@ export default {
     };
   },
   mounted: function() {
-    var initialLocation;
     const element = document.getElementById(this.mapName);
     const options = {
       zoom: 14,
@@ -24,26 +24,25 @@ export default {
     };
 
     map = new google.maps.Map(element, options);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        initialLocation = new google.maps.LatLng(
-          position.coords.latitude,
-          position.coords.longitude
-        );
-        map.setCenter(initialLocation);
-        var marker = new google.maps.Marker({
-          position: initialLocation,
-          map: map
-        });
-        marker.setMap(map);
-      });
-    }
-  },
-  updated: function() {
-    var parties = this.$store.getters.parties;
-    console.log("dqsdqsd", parties.length);
   },
   methods: {
+    displayCurrentPosition: function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          initialLocation = new google.maps.LatLng(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          map.setCenter(initialLocation);
+          var marker = new google.maps.Marker({
+            position: initialLocation,
+            map: map,
+            animation: google.maps.Animation.DROP
+          });
+          marker.setMap(map);
+        });
+      }
+    },
     displayMarkers: function() {
       var parties = this.$store.getters.parties;
       var geocoder = new google.maps.Geocoder();
@@ -65,8 +64,31 @@ export default {
         });
       }
     },
-    displayOneMarker: function(){
-      
+    displayRoute: function(addressDestination) {
+      var directionsService = new google.maps.DirectionsService();
+
+      navigator.geolocation.getCurrentPosition(function(position) {
+        // Center on user's current location if geolocation prompt allowed
+        var from = new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+
+        var directionsRequest = {
+          origin: from,
+          destination: addressDestination,
+          travelMode: google.maps.DirectionsTravelMode.DRIVING,
+          unitSystem: google.maps.UnitSystem.METRIC
+        };
+        directionsService.route(directionsRequest, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            new google.maps.DirectionsRenderer({
+              map: map,
+              directions: response
+            });
+          } else console.log("error");
+        });
+      });
     }
   }
 };
