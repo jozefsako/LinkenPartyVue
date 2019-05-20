@@ -28,73 +28,61 @@
                 <base-input
                   alternative
                   class="mb-3"
+                  v-model="last_name"
                   placeholder="Last Name"
                   addon-left-icon="ni ni-circle-08"
                 ></base-input>
                 <base-input
                   alternative
                   class="mb-3"
+                  v-model="first_name"
                   placeholder="First Name"
                   addon-left-icon="ni ni-circle-08"
                 ></base-input>
                 <base-input
                   alternative
                   class="mb-3"
+                  v-model="username"
                   placeholder="Username"
                   addon-left-icon="ni ni-badge"
                 ></base-input>
                 <base-input
                   alternative
                   class="mb-3"
+                  v-model="email"
                   placeholder="Email"
                   addon-left-icon="ni ni-email-83"
                 ></base-input>
                 <base-input
                   alternative
                   type="password"
+                  v-model="password_user"
                   placeholder="Password"
                   addon-left-icon="ni ni-lock-circle-open"
                 ></base-input>
                 <base-input
                   alternative
                   type="tel"
-                  placeholder
+                  v-model="phone"
+                  placeholder="+32000000000"
                   addon-left-icon="ni ni-mobile-button"
                 ></base-input>
+
                 <base-input alternative type="date" addon-left-icon="ni ni-calendar-grid-58"></base-input>
                 <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
                   <div>
-                    <small class="text-uppercase font-weight-bold">Gender:</small>
+                    <small class="text-uppercase font-weight-bold">Gende:</small>
                   </div>
-                  <div class="custom-control custom-radio">
-                    <input
-                      id="man"
-                      type="radio"
-                      name="sex"
-                      class="custom-control-input"
-                      value="man"
-                    >
-                    <label for="man" class="custom-control-label">Man</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input
-                      id="woman"
-                      type="radio"
-                      name="sex"
-                      class="custom-control-input"
-                      value="woman"
-                    >
-                    <label for="woman" class="custom-control-label">Woman</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input
-                      id="other"
-                      type="radio"
-                      name="sex"
-                      class="custom-control-input"
-                      value="other"
-                    >
-                    <label for="other" class="custom-control-label">Other</label>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                      <input type="radio" name="options" id="man" autocomplete="off" checked> Man
+                    </label>
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="options" id="woman" autocomplete="off"> Woman
+                    </label>
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="options" id="other" autocomplete="off"> Other
+                    </label>
                   </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
@@ -124,7 +112,16 @@
   </section>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      last_name: "",
+      first_name: "",
+      username: "",
+      email: "",
+      password_user: "",
+      phone: ""
+    };
+  }
+};
 </script>
-<style>
-</style>

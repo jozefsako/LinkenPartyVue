@@ -19,6 +19,7 @@
     "nouislider": "^13.1.5",
     "processor": "^0.1.9",
     "serve-static": "^1.14.1",
+    "vee-validate": "^2.2.7",
     "vue": "^2.6.10",
     "vue-ctk-date-time-picker": "^2.1.1",
     "vue-datetime": "^1.0.0-beta.10",
