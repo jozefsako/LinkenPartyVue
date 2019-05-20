@@ -5,10 +5,10 @@
 <script>
 var map;
 var initialLocation;
+var distance;
 export default {
   name: "google-map",
   props: ["name"],
-
   data: function() {
     return {
       mapName: this.name + "-map",
@@ -66,10 +66,10 @@ export default {
     },
     displayRoute: function(addressDestination) {
       var directionsService = new google.maps.DirectionsService();
-
+      let _this = this;
       navigator.geolocation.getCurrentPosition(function(position) {
         // Center on user's current location if geolocation prompt allowed
-        var from = new google.maps.LatLng(
+        let from = new google.maps.LatLng(
           position.coords.latitude,
           position.coords.longitude
         );
@@ -88,8 +88,25 @@ export default {
             });
           } else console.log("error");
         });
+        let response;
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+          {
+            origins: [from],
+            destinations: [addressDestination],
+            travelMode: "DRIVING",
+            unitSystem: google.maps.UnitSystem.METRIC,
+            avoidHighways: false,
+            avoidTolls: false
+          }, function(response, status) {
+              _this.storeDistance(response.rows[0].elements[0].distance.text);
+          });
       });
+    },
+    storeDistance: function(distance){
+      this.$store.commit("change", distance);
     }
+    
   }
 };
 </script>

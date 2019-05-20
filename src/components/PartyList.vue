@@ -11,9 +11,8 @@
             <p class="description mt-3">{{party.fields.description_event}}</p>
             <h5 class="description mt-3">{{party.fields.address_event}}</h5>
             <div>
-              <span class="badge badge-pill badge-primary">{{party.fields.style}}</span>
+              <span class="badge badge-pill badge-primary">{{party.fields.theme_event}}</span>
             </div>
-            
             <router-link :to="{ path: '/partyDetails/'+ party.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
           </div>
         </div>
@@ -52,7 +51,7 @@ export default {
     getParties: function() {
       this.loading = true;
       this.$http
-        .get("https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/polls/allEvents")
+        .get("https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/allEvents")
         .then(response => {
           this.parties = response.data;
           this.loading = false;
