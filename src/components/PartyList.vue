@@ -13,7 +13,8 @@
             <div>
               <span class="badge badge-pill badge-primary">{{party.fields.style}}</span>
             </div>
-            <a href="#" class="btn btn-primary mt-4">Learn more</a>
+            
+            <router-link :to="{ path: '/partyDetails/:'+party.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
           </div>
         </div>
       </div>
