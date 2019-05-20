@@ -3,6 +3,7 @@
 </template>
 
 <script>
+var map;
 export default {
   name: "google-map",
   props: ["name"],
@@ -15,6 +16,14 @@ export default {
   },
   mounted: function() {
     var initialLocation;
+    const element = document.getElementById(this.mapName);
+    const options = {
+      zoom: 14,
+      center: initialLocation,
+      disableDefaultUI: true
+    };
+
+    map = new google.maps.Map(element, options);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         initialLocation = new google.maps.LatLng(
@@ -29,19 +38,17 @@ export default {
         marker.setMap(map);
       });
     }
-    const element = document.getElementById(this.mapName);
-    const options = {
-      zoom: 14,
-      center: initialLocation,
-      disableDefaultUI: true
-    };
-
-  
+    
+  },
+  updated: function(){
     var parties = this.$store.getters.parties;
     console.log("dqsdqsd",parties.length);
-    var geocoder = new google.maps.Geocoder();
+  },
+  methods: {
+    displayMarkers: function(){
+      var parties = this.$store.getters.parties;
+      var geocoder = new google.maps.Geocoder();
     for (var i = 0; i < parties.length; i++) {
-      console.log("sdddddddd",parties[i].address_event);
       geocoder.geocode({ address: parties[i].address_event }, function(
         results,
         status
@@ -55,13 +62,8 @@ export default {
         }
       });
     }
-    const map = new google.maps.Map(element, options);
-  },
-  created: function(){
-    //var parties = this.$store.getters.parties;
-    //console.log("dqsdqsd",this.partyList.length);
-  },
-  methods: {}
+    }
+  }
 };
 </script>
 <style>

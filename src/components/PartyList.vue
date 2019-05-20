@@ -22,19 +22,6 @@
 </template>
 
 <script>
-//const contactsJSON = require('./contacts.json');
-
-/*index.addObjects(contactsJSON, (err, content) => {
-  if (err) {
-    console.error(err);
-  }
-});
-*/
-
-
-/*index.addObjects(items, (err, content) => {
-  console.log(content);
-});*/
 export default {
   https: {
     root: '/root',
@@ -45,7 +32,6 @@ export default {
     }
   },
   components: {},
-  
   
   
   data: function(){
@@ -60,8 +46,6 @@ export default {
   
   updated: function(){
     console.log(this.parties);
-
-    this.sendParties(this.parties);
   },
   methods: {
     getParties: function() {
@@ -79,9 +63,7 @@ export default {
         });
     },
     sendParties: function(parties){
-      console.log(parties);
       for(var i=0;i<parties.length;i++){
-        console.log(parties[i]);
         this.$store.commit("addParty", parties[i].fields);
       }
     }
