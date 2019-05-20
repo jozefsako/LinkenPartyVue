@@ -24,6 +24,7 @@
                             <form role="form">
                                 <base-input alternative
                                             class="mb-3"
+                                            type="text"
                                             placeholder="Username"
                                             addon-left-icon="ni ni-badge">
                                 </base-input>
