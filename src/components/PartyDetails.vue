@@ -20,10 +20,10 @@
               <GoogleMap ref="GoogleMap"></GoogleMap>
             </div>
             <div class="row">
-              <div class="col text-center mt-5">
-                Distance <span class="badge badge-pill badge-info">{{distance}}</span>
+              <div class="col text-left mt-5" style="left: 5.5%;">
+                <span class="badge badge-pill badge-info">Distance: {{distance}}</span>
               </div>
-              <div class="col text-center mt-5">
+              <div class="col text-center mt-5 affluence-container">
                 <div class="progress-info">
                   <div class="progress-label">
                     <span>Affluence</span>
@@ -42,7 +42,44 @@
                     style="width: 60%;"
                   ></div>
                 </div>
+              
               </div>
+              <div class="w-100"></div>
+              <div class="col text-left mt-2" style="left: 5.5%;">
+                <button type="button" class="btn btn-outline-success">Buy Tickets</button>
+              </div>
+              <div class="w-100"></div>
+              <div class="col text-left mt-5" style="left: 5.5%;">
+                <h4>
+                  Price:
+                  <strong>19€</strong>
+                </h4>
+              </div>
+              
+
+              <div class="col text-left mt-5">
+                <h4>
+                  Style:
+                  <strong>Electro</strong>
+                </h4>
+              </div>
+
+              <div class="w-100"></div>
+              <div class="col text-left mt-5" style="left: 5.5%;">
+                <h4>
+                  When:
+                  <strong>26/05/2019</strong>
+                </h4>
+              </div>
+
+                <div class="w-100"></div>
+
+              <div class="col text-left mt-5" style="left: 5.5%; padding-right: 10%;">
+                <p>
+                  <strong>Après une tournée complète en Belgique (Gand, deux Ancienne Belgique, Liège, Anvers en novembre et Forest National le 25 mai prochain) et en France (23 dates en province et 7 dates à Paris dont 4 Zénith), Angèle revient pour deux concerts exceptionnels au Lotto Arena d’Anvers le dimanche 10 novembre 2019 et au Palais 12, Brussels Expo le mardi 19 novembre 2019. Une histoire belge comme on les aime !</strong>
+                </p>
+              </div>
+
             </div>
           </div>
         </card>
@@ -70,7 +107,7 @@ export default {
     };
   },
   created: function() {
-    //this.getParty(this.$route.params.partyId);
+    this.getParty(this.$route.params.partyId);
     console.log(this.$route.params.partyId);
   },
   mounted: function() {
@@ -92,20 +129,33 @@ export default {
 
   methods: {
     getParty: function(id) {
+      var json = {"id_event": id};
+      console.log(json)
       this.loading = true;
       this.$http
-        .get(
-          `https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/event/${id}`
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/events/",
+          json,
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
         )
         .then(response => {
-          this.currentParty = response.data;
-          this.loading = false;
+          this.user = response.data;
+          console.log(response.data);
         })
         .catch(err => {
-          this.loading = false;
           console.log(err);
         });
     }
   }
 };
 </script>
+<style>
+.affluence-container {
+  padding-right: 7%;
+  padding-left: 7%;
+}
+</style>
