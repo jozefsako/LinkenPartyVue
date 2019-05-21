@@ -4,7 +4,6 @@ import Login from "./views/Login.vue"
 import Register from "./views/Register.vue"
 import HomeOrganizer from "./views/HomeOrganizer.vue"
 import HomeReveler from "./views/HomeReveler.vue"
-import AddEvent from "./views/AddEvent.vue"
 
 Vue.use(VueRouter);
 
@@ -30,11 +29,6 @@ export default new VueRouter({
       path: '/homeReveler',
       name: 'HomeReveler',
       component: HomeReveler
-    },
-    {
-      path: '/addEvent',
-      name: 'AddEvent',
-      component: AddEvent
     }
   ],
   scrollBehavior: to => {

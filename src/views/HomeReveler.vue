@@ -17,12 +17,11 @@
                 <card shadow class="card-profile mt--300" no-body>
                     <div class="px-4">
                         <div class="row justify-content-center">
-                            <GoogleMap ref='GoogleMap'></GoogleMap>
+                            <GoogleMap></GoogleMap>
                         </div>
-                        <button v-on:click="displayParties" type="button" class="btn btn-outline-primary" style="position: absolute;left: 8%; margin-top: 1%;">Display Events</button>
                         <div class="text-center mt-5">
                             <h3>Tendance</h3>                        
-                            <PartyList ref='PartyList'></PartyList>
+                            <PartyList></PartyList>
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
                             <div class="row justify-content-center">
@@ -50,17 +49,11 @@ import footer from "../layout/AppFooter.vue"
 export default {
   //name: 'google-map',
   components:{
-      'GoogleMap' : GoogleMap,
-      'PartyList' : PartyList,
+      GoogleMap,
+      PartyList,
       'my-header': header,
       'my-footer': footer
   },
-  methods : {
-      displayParties : function(){
-          this.$refs.PartyList.sendParties(this.$refs.PartyList.parties);
-          this.$refs.GoogleMap.displayMarkers();
-      }
-  }
 };
 
 </script>
