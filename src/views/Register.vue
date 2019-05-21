@@ -95,29 +95,41 @@
                     v-model="user.phone"
                     placeholder="+32000000000"
                     addon-left-icon="ni ni-mobile-button"
-                    v-validate="'required'"
-                    :class="{ 'is-invalid': submitted && errors.has('phone')}"
                   ></base-input>
                   <base-input
                     id="birthdate"
                     name="birthdate"
                     alternative
                     type="date"
+                    data-date="" 
+                    data-date-format="YYYY-MM-DD"
                     v-model="user.birthdate"
                     addon-left-icon="ni ni-calendar-grid-58"
-                    v-validate="'required'"
-                    :class="{ 'is-invalid': submitted && errors.has('birthdate')}"
                   ></base-input>
                   <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
                     <div>
                       <small class="text-uppercase font-weight-bold">Gender:</small>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
+                      <select id="gender" name="gender" alternative v-model="user.gender">
+                        <option id="m" value="M" selected>Male</option>
+                        <option id="f" value="F">Female</option>
+                        <option id="o" value="O">Other</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
                     <div>
                       <small class="text-uppercase font-weight-bold">Organizer?</small>
                     </div>
-                    <base-switch type="checkbox" value="true" v-model="user.type_user"></base-switch>
+                    <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
+                      <section>
+                        <label>Fetard</label>
+                        <input type="radio" name="type_user" value="F" v-model="user.type_user" checked>
+                        <label>Organizer</label>
+                        <input type="radio" name="type_user" value="O" v-model="user.type_user">
+                      </section>
+                    </div>
                   </div>
                   <div class="text-center">
                     <div class="text-center">
@@ -127,6 +139,7 @@
                 </form>
               </div>
             </template>
+            <span class="error text-danger" v-if="seen">{{msg}}</span>
           </card>
           <div class="row mt-3">
             <div class="col-12 text-center">
@@ -141,6 +154,7 @@
   </section>
 </template>
 <script>
+import moment from 'moment';
 export default {
   data: function() {
     return {
@@ -155,18 +169,52 @@ export default {
         gender: "",
         type_user: "",
         version_number: 0,
-        registration_date: new Date()
+        registration_date: moment(new Date()).format("YYYY-MM-DD"),
       },
-      submitted: false
+      msg: "All the fields are required! Except the Birth date and the phone ",
+      submitted: false,
+      seen: false
     };
   },
   methods: {
     handleSubmit() {
+      alert(JSON.stringify(this.user));
       this.submitted = true;
       this.$validator.validate().then(valid => {
-        alert(JSON.stringify(this.user));
-        this.$router.push("homeReveler");
+        if (!valid) {
+          this.msg = "All the fields are required! Except the Birth date and the phone ";
+          this.seen = true;
+        } else {
+          this.addUser();
+        }
       });
+    },
+    addUser: function() {
+      this.$http
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/register",
+          JSON.stringify(this.user),
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(response => {
+          this.user = response.data[0];
+          console.log(response.data[0].pk);
+          console.log(response.data);
+          if (response.data[0].fields.type_user === "O") {
+            this.$router.push("homeOrganizer");
+          } else {
+            this.$router.push("homeReveler");
+          }
+        })
+        .catch(err => {
+          this.msg = "You already have an account!";
+          this.seen = true;
+          console.log(err);
+        });
     }
   }
 };

@@ -57,7 +57,7 @@
                 </div>
               </form>
             </template>
-            <span class="error text-danger" v-if="seen">All the fields are required!</span>
+            <span class="error text-danger" v-if="seen">{{msg}}</span>
           </card>
           <div class="row mt-3">
             <div class="col-12 text-center">
@@ -72,7 +72,6 @@
   </section>
 </template>
 <script>
-
 export default {
   data: function() {
     return {
@@ -80,6 +79,7 @@ export default {
         username: "",
         password: ""
       },
+      msg: "All the fields are required!",
       submitted: false,
       seen: false
     };
@@ -89,16 +89,10 @@ export default {
       this.submitted = true;
       this.$validator.validate().then(valid => {
         if (!valid) {
+          this.msg = "All the fields are required";
           this.seen = true;
         } else {
-          alert(JSON.stringify(this.user));
-          this.$router.push("homeReveler");
           this.sendUser();
-         /* if (getUser().type_user === 'o'){
-            this.$router.push("homeOranizer");
-          }else{
-            this.$router.push("homeReveler");
-          }*/
         }
       });
     },
@@ -114,10 +108,18 @@ export default {
           }
         )
         .then(response => {
-          this.user = response.data;
+          this.user = response.data[0];
+          console.log(response.data[0].pk);
           console.log(response.data);
+          if (response.data[0].fields.type_user === "O") {
+            this.$router.push("homeOrganizer");
+          } else {
+            this.$router.push("homeReveler");
+          }
         })
         .catch(err => {
+          this.msg = "You have to sign in !";
+          this.seen = true;
           console.log(err);
         });
     }

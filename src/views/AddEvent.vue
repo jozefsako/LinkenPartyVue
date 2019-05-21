@@ -23,67 +23,70 @@
                 </div>
                 <form role="form">
                   <base-input
+                    id="name_event"
+                    name="name_event"
                     alternative
                     class="mb-3"
                     type="text"
-                    placeholder="name_event"
+                    v-model="event.name_event"
+                    placeholder="Name"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
                   <base-input
+                    id="theme_event"
+                    name="theme_event"
                     alternative
                     class="mb-3"
                     type="text"
-                    placeholder="theme_event"
+                    v-model="event.theme_event"
+                    placeholder="A CHANGER!!!!!!!"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
-                  <vue-ctk-date-time-picker ></vue-ctk-date-time-picker>
+                  <vue-ctk-date-time-picker v-model="event.start_date"></vue-ctk-date-time-picker>
+                  <vue-ctk-date-time-picker v-model="event.end_date"></vue-ctk-date-time-picker>
                   <base-input
-                    alternative
-                    class="mb-3"
-                    type="date"
-                    placeholder="start_date"
-                    addon-left-icon="ni ni-badge"
-                  ></base-input>                  
-                  <vue-ctk-date-time-picker ></vue-ctk-date-time-picker>
-                  <base-input
-                    alternative
-                    class="mb-3"
-                    type="date"
-                    placeholder="end_date"
-                    addon-left-icon="ni ni-badge"
-                  ></base-input>
-                  <base-input
+                    id="price"
+                    name="price"
                     alternative
                     class="mb-3"
                     type="number"
+                    v-model="event.price"
                     placeholder="price"
                     min="0"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
                   <base-input
+                    id="address_event"
+                    name="address_event"
+                    v-model="event.address_event"
                     ref="autocomplete"
                     placeholder="Search"
                     class="search-location"
                     onfocus="value = ''"
                     type="text"
                     addon-left-icon="ni ni-badge"
-                  />
+                  ></base-input>
                   <base-input
+                    id="size_hosting"
+                    name="size_hosting"
                     alternative
                     class="mb-3"
                     type="number"
                     min="1"
+                    v-model="event.size_hosting"
                     placeholder="size_hosting"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
                   <base-input
+                  id="description"
+                  name="description"
                     alternative
                     class="mb-3"
                     type="textbox"
+                    v-model="event.description"
                     placeholder="description"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
-
                   <div class="text-center">
                     <router-link to="#">
                       <base-button type="primary" class="my-4">Add</base-button>
@@ -102,15 +105,39 @@
 <script>
 import header from "../layout/AppHeaderOrganizer.vue";
 import footer from "../layout/AppFooter.vue";
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 
-
-export default { 
+export default {
+  data:function(){
+    return {
+      event:{
+        id_user: "1",
+        name_event: "",
+        theme_event: "",
+        start_date: "",
+        end_date: "",
+        price: "",
+        address_event: "",
+        size_hosting: "",
+        description_event: "",
+        state_event: "Confirmed",
+        creation_date: new Date(),
+        version_number: 0,
+        type_event: "",
+      },
+    };
+  },
   components: {
     VueCtkDateTimePicker,
     "my-header": header,
     "my-footer": footer
+  },
+  mounted: function() {
+    this.autocomplete = new google.maps.places.Autocomplete(
+      this.$refs.autocomplete,
+      { types: ["geocode"] }
+    );
   }
 };
 </script>

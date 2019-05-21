@@ -24,6 +24,7 @@
     "vue-ctk-date-time-picker": "^2.1.1",
     "vue-datetime": "^1.0.0-beta.10",
     "vue-lazyload": "^1.2.6",
+    "vue-moment": "^4.0.0",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.6",
     "vue2-transitions": "^0.3.0",
