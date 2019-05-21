@@ -20,10 +20,17 @@
               <GoogleMap ref="GoogleMap"></GoogleMap>
             </div>
             <div class="row">
-              <div class="col text-left mt-5" style="left: 5.5%;">
+              <div class="col text-center mt-5">
+                <h2 v-if="loaded">{{this.currentParty[0].fields.name_event}}</h2>
+              </div>
+              
+              <div class="w-100"></div>
+              <div class="col text-left mt-4" style="left: 5.5%;">
                 <span class="badge badge-pill badge-info">Distance: {{distance}}</span>
               </div>
-              <div class="col text-center mt-5 affluence-container">
+              
+              <div class="w-100"></div>
+              <div class="col text-center mt-4 affluence-container">
                 <div class="progress-info">
                   <div class="progress-label">
                     <span>Affluence</span>
@@ -44,27 +51,27 @@
                 </div>
               </div>
               <div class="w-100"></div>
-              <div class="col text-left mt-5" style="left: 5.5%;">
-                <h2 v-if="loaded">{{this.currentParty[0].fields.name_event}}</h2>
-              </div>
+
               
-              <div class="w-100"></div>
 
               
               <div class="w-100"></div>
-              <div class="col text-left mt-5" style="left: 5.5%;">
-                <h4>
-                  When:
-                  <strong v-if="loaded">{{this.currentParty[0].fields.start_date}}</strong>
-                </h4>
-              </div>
 
-              <div class="col text-left mt-5">
+              <div class="col text-left mt-5" style="left: 5.5%;">
                 <h4>
                   Style:
                   <strong v-if="loaded">{{this.currentParty[0].fields.theme_event}}</strong>
                 </h4>
               </div>
+
+              <div class="col text-left mt-5" >
+                <h4>
+                  Date:
+                  <strong v-if="loaded">{{this.currentParty[0].fields.start_date}}</strong>
+                </h4>
+              </div>
+
+              
 
               <div class="w-100"></div>
               
@@ -75,7 +82,16 @@
                 </h4>
               </div>
 
-              <div class="col text-center mt-3" >
+              <div class="col text-left mt-5" >
+                <h4>
+                  Opening hour:
+                  <strong v-if="loaded">20:00</strong>
+                </h4>
+              </div>
+              <div class="w-100"></div>
+
+
+                <div class="col text-left mt-3" style="left: 5.5%;">
                 <button type="button" class="btn btn-outline-success">Buy Tickets</button>
               </div>
 
@@ -86,6 +102,11 @@
                   <strong v-if="loaded">{{this.currentParty[0].fields.description_event}}</strong>
                 </p>
               </div>
+
+
+              
+
+
             </div>
           </div>
         </card>
