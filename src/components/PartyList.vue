@@ -2,7 +2,7 @@
   <div class="col-lg-12" style="padding: 0 !important;">
     <div class="row row-grid list-party">
       <div v-for="party in parties" :key="party.id" class="col-lg-4">
-        <div class="card card-lift--hover shadow border-0">
+        <div class="card card-lift--hover shadow border-0" style="margin-top: 30px;">
           <div class="card-body py-3">
             <div class="icon icon-shape icon-shape-primary rounded-circle mb-4">
               <i class="ni ni-sound-wave"></i>
@@ -72,8 +72,7 @@ export default {
 
 <style>
 .list-party {
-  overflow-x: auto;
-  display: -webkit-inline-box;
+  
   padding-top: 25px;
   padding-bottom: 25px;
 }
