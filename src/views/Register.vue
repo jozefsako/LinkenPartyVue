@@ -21,97 +21,111 @@
             class="border-0"
           >
             <template>
-              <div class="text-muted text-center mb-3">
-                <h1 class="display-2 mb-0">Sign in</h1>
+              <div class="container">
+                <div class="text-muted text-center mb-3">
+                  <h1 class="display-2 mb-0">Sign in</h1>
+                </div>
+                <form role="form" @submit.prevent="handleSubmit">
+                  <base-input
+                    id="last_name"
+                    name="last_name"
+                    alternative
+                    type="text"
+                    class="mb-3"
+                    v-model="user.last_name"
+                    placeholder="Last Name"
+                    addon-left-icon="ni ni-circle-08"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('last_name')}"
+                  ></base-input>
+                  <base-input
+                    id="first_name"
+                    name="first_name"
+                    alternative
+                    type="text"
+                    class="mb-3"
+                    v-model="user.first_name"
+                    placeholder="First Name"
+                    addon-left-icon="ni ni-circle-08"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('first_name')}"
+                  ></base-input>
+                  <base-input
+                    id="username"
+                    name="username"
+                    alternative
+                    type="text"
+                    class="mb-3"
+                    v-model="user.username"
+                    placeholder="Username"
+                    addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('username')}"
+                  ></base-input>
+                  <base-input
+                    id="email"
+                    name="email"
+                    alternative
+                    type="email"
+                    class="mb-3"
+                    v-model="user.email"
+                    placeholder="Email"
+                    addon-left-icon="ni ni-email-83"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('email')}"
+                  ></base-input>
+                  <base-input
+                    id="password"
+                    name="password"
+                    alternative
+                    type="password"
+                    class="mb-3"
+                    v-model="user.password"
+                    placeholder="Password"
+                    addon-left-icon="ni ni-lock-circle-open"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('password')}"
+                  ></base-input>
+                  <base-input
+                    id="phone"
+                    name="phone"
+                    alternative
+                    type="tel"
+                    class="mb-3"
+                    v-model="user.phone"
+                    placeholder="+32000000000"
+                    addon-left-icon="ni ni-mobile-button"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('phone')}"
+                  ></base-input>
+                  <base-input
+                    id="birthdate"
+                    name="birthdate"
+                    alternative
+                    type="date"
+                    v-model="user.birthdate"
+                    addon-left-icon="ni ni-calendar-grid-58"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('birthdate')}"
+                  ></base-input>
+                  <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Gender:</small>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Organizer?</small>
+                    </div>
+                    <base-switch type="checkbox" value="true" v-model="user.type_user"></base-switch>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-center">
+                      <button class="btn btn-primary">Sign in</button>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <form role="form">
-                <base-input
-                  alternative
-                  class="mb-3"
-                  placeholder="Last Name"
-                  addon-left-icon="ni ni-circle-08"
-                ></base-input>
-                <base-input
-                  alternative
-                  class="mb-3"
-                  placeholder="First Name"
-                  addon-left-icon="ni ni-circle-08"
-                ></base-input>
-                <base-input
-                  alternative
-                  class="mb-3"
-                  placeholder="Username"
-                  addon-left-icon="ni ni-badge"
-                ></base-input>
-                <base-input
-                  alternative
-                  class="mb-3"
-                  placeholder="Email"
-                  addon-left-icon="ni ni-email-83"
-                ></base-input>
-                <base-input
-                  alternative
-                  type="password"
-                  placeholder="Password"
-                  addon-left-icon="ni ni-lock-circle-open"
-                ></base-input>
-                <base-input
-                  alternative
-                  type="tel"
-                  placeholder
-                  addon-left-icon="ni ni-mobile-button"
-                ></base-input>
-                <base-input alternative type="date" addon-left-icon="ni ni-calendar-grid-58"></base-input>
-                <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
-                  <div>
-                    <small class="text-uppercase font-weight-bold">Gender:</small>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input
-                      id="man"
-                      type="radio"
-                      name="sex"
-                      class="custom-control-input"
-                      value="man"
-                    >
-                    <label for="man" class="custom-control-label">Man</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input
-                      id="woman"
-                      type="radio"
-                      name="sex"
-                      class="custom-control-input"
-                      value="woman"
-                    >
-                    <label for="woman" class="custom-control-label">Woman</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input
-                      id="other"
-                      type="radio"
-                      name="sex"
-                      class="custom-control-input"
-                      value="other"
-                    >
-                    <label for="other" class="custom-control-label">Other</label>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
-                  <div>
-                    <small class="text-uppercase font-weight-bold">Organizer?</small>
-                  </div>
-                  <label class="custom-toggle custom-radio">
-                    <input type="checkbox">
-                    <span class="custom-toggle-slider rounded-circle"></span>
-                  </label>
-                </div>
-                <div class="text-center">
-                  <router-link to="/homeReveler">
-                    <base-button type="primary" class="my-4">Create account</base-button>
-                  </router-link>
-                </div>
-              </form>
             </template>
           </card>
           <div class="row mt-3">
@@ -128,7 +142,32 @@
 </template>
 <script>
 export default {
+  data: function() {
+    return {
+      user: {
+        last_name: "",
+        first_name: "",
+        username: "",
+        email: "",
+        password: "",
+        phone: "",
+        birthdate: "",
+        gender: "",
+        type_user: "",
+        version_number: 0,
+        registration_date: new Date()
+      },
+      submitted: false
+    };
+  },
+  methods: {
+    handleSubmit() {
+      this.submitted = true;
+      this.$validator.validate().then(valid => {
+        alert(JSON.stringify(this.user));
+        this.$router.push("homeReveler");
+      });
+    }
+  }
 };
 </script>
-<style>
-</style>
