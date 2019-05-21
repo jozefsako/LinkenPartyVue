@@ -55,7 +55,6 @@ export default {
         .then(response => {
           this.parties = response.data;
           this.loading = false;
-          console.log(this.parties);
         })
         .catch(err => {
           this.loading = false;

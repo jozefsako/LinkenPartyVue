@@ -24,6 +24,7 @@ export default {
     };
 
     map = new google.maps.Map(element, options);
+    //this.displayCurrentPosition();
   },
   methods: {
     displayCurrentPosition: function() {
@@ -57,7 +58,8 @@ export default {
             var location = new google.maps.LatLng(latitude, longitude);
             var marker = new google.maps.Marker({
               position: location,
-              map: map
+              map: map,
+              animation: google.maps.Animation.DROP
             });
             marker.setMap(map);
           }

@@ -50,11 +50,14 @@ export default {
       'my-header': header,
       'my-footer': footer
   },
+  mounted: function(){
+      this.$refs.GoogleMap.displayCurrentPosition();
+  },
   methods : {
       displayParties : function(){
           this.$refs.PartyList.sendParties(this.$refs.PartyList.parties);
           this.$refs.GoogleMap.displayMarkers();
-          this.$refs.GoogleMap.displayCurrentPosition();
+          
       }
   }
 };

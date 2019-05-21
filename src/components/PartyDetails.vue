@@ -42,44 +42,50 @@
                     style="width: 60%;"
                   ></div>
                 </div>
-              
-              </div>
-              <div class="w-100"></div>
-              <div class="col text-left mt-2" style="left: 5.5%;">
-                <button type="button" class="btn btn-outline-success">Buy Tickets</button>
               </div>
               <div class="w-100"></div>
               <div class="col text-left mt-5" style="left: 5.5%;">
-                <h4>
-                  Price:
-                  <strong>19€</strong>
-                </h4>
+                <h2 v-if="loaded">{{this.currentParty[0].fields.name_event}}</h2>
               </div>
               
+              <div class="w-100"></div>
 
-              <div class="col text-left mt-5">
-                <h4>
-                  Style:
-                  <strong>Electro</strong>
-                </h4>
-              </div>
-
+              
               <div class="w-100"></div>
               <div class="col text-left mt-5" style="left: 5.5%;">
                 <h4>
                   When:
-                  <strong>26/05/2019</strong>
+                  <strong v-if="loaded">{{this.currentParty[0].fields.start_date}}</strong>
                 </h4>
               </div>
 
-                <div class="w-100"></div>
+              <div class="col text-left mt-5">
+                <h4>
+                  Style:
+                  <strong v-if="loaded">{{this.currentParty[0].fields.theme_event}}</strong>
+                </h4>
+              </div>
+
+              <div class="w-100"></div>
+              
+              <div class="col text-left mt-5" style="left: 5.5%;">
+                <h4>
+                  Price:
+                  <strong v-if="loaded">{{this.currentParty[0].fields.price}}€</strong>
+                </h4>
+              </div>
+
+              <div class="col text-center mt-3" >
+                <button type="button" class="btn btn-outline-success">Buy Tickets</button>
+              </div>
+
+              <div class="w-100"></div>
 
               <div class="col text-left mt-5" style="left: 5.5%; padding-right: 10%;">
                 <p>
-                  <strong>Après une tournée complète en Belgique (Gand, deux Ancienne Belgique, Liège, Anvers en novembre et Forest National le 25 mai prochain) et en France (23 dates en province et 7 dates à Paris dont 4 Zénith), Angèle revient pour deux concerts exceptionnels au Lotto Arena d’Anvers le dimanche 10 novembre 2019 et au Palais 12, Brussels Expo le mardi 19 novembre 2019. Une histoire belge comme on les aime !</strong>
+                  <strong v-if="loaded">{{this.currentParty[0].fields.description_event}}</strong>
                 </p>
               </div>
-
             </div>
           </div>
         </card>
@@ -93,6 +99,7 @@
 import GoogleMap from "../components/GoogleMap.vue";
 import header from "../layout/AppHeaderReveler.vue";
 import footer from "../layout/AppFooter.vue";
+import { setTimeout } from "timers";
 
 export default {
   components: {
@@ -102,16 +109,16 @@ export default {
   },
   data: function() {
     return {
-      currentParty: {},
+      loading: false,
+      loaded: false,
+      currentParty: [],
       distance: this.$store.state.distance
     };
   },
-  created: function() {
+  beforeMount: function() {
     this.getParty(this.$route.params.partyId);
-    console.log(this.$route.params.partyId);
   },
   mounted: function() {
-    this.$refs.GoogleMap.displayRoute("rue Lincoln 22, Uccle");
     var _this = this;
     this.$store.watch(
       function(state) {
@@ -129,9 +136,9 @@ export default {
 
   methods: {
     getParty: function(id) {
-      var json = {"id_event": id};
-      console.log(json)
+      var json = { id_event: id };
       this.loading = true;
+      var _this = this;
       this.$http
         .post(
           "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/events/",
@@ -143,10 +150,16 @@ export default {
           }
         )
         .then(response => {
-          this.user = response.data;
-          console.log(response.data);
+          this.loading = false;
+          _this.loaded = true;
+          this.currentParty = response.data;
+
+          _this.$refs.GoogleMap.displayRoute(
+            this.currentParty[0].fields.address_event
+          );
         })
         .catch(err => {
+          this.loading = false;
           console.log(err);
         });
     }
