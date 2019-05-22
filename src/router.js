@@ -34,7 +34,7 @@ export default new VueRouter({
       component: HomeReveler
     },
     {
-      path: '/addEvent',
+      path: '/addEvent/:userId',
       name: 'AddEvent',
       component: AddEvent
     },
