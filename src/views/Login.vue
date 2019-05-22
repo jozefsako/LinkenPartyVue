@@ -24,7 +24,7 @@
               <div class="text-muted text-center mb-3">
                 <h1 class="display-2 mb-0">Log in</h1>
               </div>
-              <form role="form" @submit.prevent="handleSubmit">
+              <form role="form" @submit.prevent="submitLogin">
                 <div class="form-group">
                   <base-input
                     id="username"
@@ -44,6 +44,7 @@
                     id="password"
                     name="password"
                     alternative
+                    class="mb-3"
                     type="password"
                     v-model="user.password"
                     placeholder="Password"
@@ -85,7 +86,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {
+    submitLogin() {
       this.submitted = true;
       this.$validator.validate().then(valid => {
         if (!valid) {
@@ -126,5 +127,3 @@ export default {
   }
 };
 </script>
-<style>
-</style>
