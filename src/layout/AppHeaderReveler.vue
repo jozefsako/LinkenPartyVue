@@ -18,13 +18,9 @@
 
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
                 <li>
-                    <router-link to="/" slot="title"  class="nav-link" role="button">
+                    <router-link :to="{ path: '/userParticipationsPage/'+ this.$store.getters.currentIdUser}" slot="title"  class="nav-link" role="button">
                         <i class="ni ni-ui-04 d-lg-none"></i>
-                        <span class="nav-link-inner--text">Past</span>
-                    </router-link></li><li>
-                    <router-link to="/register" slot="title" class="nav-link"  role="button">
-                        <i class="ni ni-collection d-lg-none"></i>
-                        <span class="nav-link-inner--text">Future</span>
+                        <span class="nav-link-inner--text">My Participations</span>
                     </router-link></li>
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">

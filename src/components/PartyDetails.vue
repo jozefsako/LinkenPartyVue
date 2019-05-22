@@ -65,7 +65,7 @@
               <div class="col text-left mt-5">
                 <h4>
                   Date:
-                  <strong v-if="loaded">{{this.currentParty[0].fields.start_date}}</strong>
+                  <strong v-if="loaded">{{this.date}}</strong>
                 </h4>
               </div>
 
@@ -81,15 +81,19 @@
               <div class="col text-left mt-5">
                 <h4>
                   Opening hour:
-                  <strong v-if="loaded">20:00</strong>
+                  <strong v-if="loaded">{{this.hour}}</strong>
                 </h4>
               </div>
               <div class="w-100"></div>
 
               <div class="col text-left mt-3" style="left: 5.5%;">
-                <button v-on:click="registerToParty" type="button" class="btn btn-outline-success">Buy Tickets</button>
+                <button
+                  v-on:click="registerToEvent"
+                  type="button"
+                  class="btn btn-outline-success"
+                >Buy Tickets</button>
               </div>
-    
+
               <div class="w-100"></div>
 
               <div class="col text-left mt-5" style="left: 5.5%; padding-right: 10%;">
@@ -97,7 +101,6 @@
                   <strong v-if="loaded">{{this.currentParty[0].fields.description_event}}</strong>
                 </p>
               </div>
-              
             </div>
           </div>
         </card>
@@ -112,7 +115,9 @@ import GoogleMap from "../components/GoogleMap.vue";
 import header from "../layout/AppHeaderReveler.vue";
 import footer from "../layout/AppFooter.vue";
 import { setTimeout } from "timers";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import moment from "moment";
+
 
 export default {
   components: {
@@ -127,6 +132,8 @@ export default {
       loaded: false,
       currentParty: [],
       pourcentage: null,
+      date: "",
+      hour: "",
       distance: this.$store.state.distance
     };
   },
@@ -151,13 +158,14 @@ export default {
   },
 
   methods: {
-    registerToParty: function(){
+    registerToEvent: function() {
       Swal.fire({
-        title: 'Enjoy !',
-        text: 'Votre participation a bien été enregistrée',
-        type: 'success',
-        confirmButtonText: 'Cool'
-      })
+        title: "Enjoy !",
+        text: "Votre participation a bien été enregistrée.",
+        type: "success",
+        confirmButtonText: "Cool"
+      });
+      this.addParticipation(this.$store.getters.currentIdUser,this.$route.params.partyId);
     },
     getParty: function(id) {
       var json = { id_event: id };
@@ -177,9 +185,11 @@ export default {
           this.loading = false;
           _this.loaded = true;
           this.currentParty = response.data;
+          this.date = moment(String(this.currentParty[0].fields.start_date)).format("DD/MM/YYYY");
+          this.hour = moment(String(this.currentParty[0].fields.start_date)).format('LT'); 
           _this.getNbParticipations(_this.$route.params.partyId);
           _this.$refs.GoogleMap.displayRoute(
-            this.currentParty[0].fields.address_event
+          this.currentParty[0].fields.address_event
           );
         })
         .catch(err => {
@@ -188,7 +198,6 @@ export default {
         });
     },
     getNbParticipations: function(id) {
-      console.log("bonjour", id);
       var json = { id_event: id };
       this.loading = true;
       var _this = this;
@@ -212,6 +221,28 @@ export default {
         })
         .catch(err => {
           this.loading = false;
+          console.log(err);
+        });
+    },
+    addParticipation: function(idUser, idEvent) {
+      var date = moment(new Date()).format("YYYY-MM-DD");
+      var json = {id_user: idUser.toString(), id_event: idEvent, participation_date: date};
+      console.log(json);
+      this.$http
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/addParticipation",
+          json,
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(response => {
+          console.log(response.data);
+          
+        })
+        .catch(err => {
           console.log(err);
         });
     }

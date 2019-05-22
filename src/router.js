@@ -6,6 +6,7 @@ import HomeOrganizer from "./views/HomeOrganizer.vue"
 import HomeReveler from "./views/HomeReveler.vue"
 import PartyDetails from "./components/PartyDetails.vue"
 import AddEvent from "./views/AddEvent.vue"
+import UserParticipationsPage from "./components/UserParticipationsPage.vue"
 
 Vue.use(VueRouter);
 
@@ -41,6 +42,12 @@ export default new VueRouter({
       path: '/partyDetails/:partyId',
       name: 'PartyDetails',
       component: PartyDetails,
+      params: true
+    },
+    {
+      path: '/userParticipationsPage/:userId',
+      name: 'UserParticipationsPage',
+      component: UserParticipationsPage,
       params: true
     }
   ],
