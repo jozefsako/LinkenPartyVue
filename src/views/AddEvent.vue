@@ -32,18 +32,31 @@
                     placeholder="Name"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
-                  <base-input
-                    id="theme_event"
-                    name="theme_event"
-                    alternative
-                    class="mb-3"
-                    type="text"
-                    v-model="event.theme_event"
-                    placeholder="A CHANGER!!!!!!!"
-                    addon-left-icon="ni ni-badge"
-                  ></base-input>
-                  <vue-ctk-date-time-picker v-model="event.start_date"></vue-ctk-date-time-picker>
-                  <vue-ctk-date-time-picker v-model="event.end_date"></vue-ctk-date-time-picker>
+                  <div class="form-group">
+                    <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
+                      <div>
+                        <small class="text-uppercase font-weight-bold">Theme:</small>
+                      </div>
+                      <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
+                        <select
+                          id="theme_event"
+                          name="theme_event"
+                          alternative
+                          v-model="event.theme_event"
+                          v-validate="'required'"
+                          :class="{ 'is-invalid': submitted && errors.has('theme_event')}"
+                        >
+                          <option id="concert" value="Concert" selected>Concert</option>
+                          <option id="private" value="Private">Private</option>
+                          <option id="public" value="Public">Public</option>
+                          <option id="party" value="Party">Party</option>
+                          <option id="free" value="Free">Free</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <vue-ctk-date-time-picker v-model="event.start_date" class="mb-3"></vue-ctk-date-time-picker>
+                  <vue-ctk-date-time-picker v-model="event.end_date" class="mb-3"></vue-ctk-date-time-picker>
                   <base-input
                     id="price"
                     name="price"
@@ -78,8 +91,8 @@
                     addon-left-icon="ni ni-badge"
                   ></base-input>
                   <base-input
-                  id="description"
-                  name="description"
+                    id="description"
+                    name="description"
                     alternative
                     class="mb-3"
                     type="textbox"
@@ -109,9 +122,9 @@ import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 
 export default {
-  data:function(){
+  data: function() {
     return {
-      event:{
+      event: {
         id_user: "1",
         name_event: "",
         theme_event: "",
@@ -125,19 +138,14 @@ export default {
         creation_date: new Date(),
         version_number: 0,
         type_event: "",
-      },
+        autocomplete: ""
+      }
     };
   },
   components: {
     VueCtkDateTimePicker,
     "my-header": header,
     "my-footer": footer
-  },
-  mounted: function() {
-    this.autocomplete = new google.maps.places.Autocomplete(
-      this.$refs.autocomplete,
-      { types: ["geocode"] }
-    );
   }
 };
 </script>
