@@ -55,18 +55,8 @@
                       </div>
                     </div>
                   </div>
-                  <base-input
-                    id="theme_event"
-                    name="theme_event"
-                    alternative
-                    class="mb-3"
-                    type="text"
-                    v-model="event.theme_event"
-                    placeholder="A CHANGER!!!!!!!"
-                    addon-left-icon="ni ni-badge"
-                  ></base-input>
-                  <vue-ctk-date-time-picker v-model="event.start_date"></vue-ctk-date-time-picker>
-                  <vue-ctk-date-time-picker v-model="event.end_date"></vue-ctk-date-time-picker>
+                  <vue-ctk-date-time-picker v-model="event.start_date" class="mb-3"></vue-ctk-date-time-picker>
+                  <vue-ctk-date-time-picker v-model="event.end_date" class="mb-3"></vue-ctk-date-time-picker>
                   <base-input
                     id="price"
                     name="price"

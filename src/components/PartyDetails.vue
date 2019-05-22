@@ -20,54 +20,57 @@
               <GoogleMap ref="GoogleMap"></GoogleMap>
             </div>
             <div class="row">
-              <div class="col text-left mt-5" style="left: 5.5%;">
+              <div class="col text-center mt-5">
+                <h2 v-if="loaded">{{this.currentParty[0].fields.name_event}}</h2>
+              </div>
+
+              <div class="w-100"></div>
+              <div class="col text-left mt-4" style="left: 5.5%;">
                 <span class="badge badge-pill badge-info">Distance: {{distance}}</span>
               </div>
-              <div class="col text-center mt-5 affluence-container">
+
+              <div class="w-100"></div>
+              <div class="col text-center mt-4 affluence-container">
                 <div class="progress-info">
                   <div class="progress-label">
                     <span>Affluence</span>
                   </div>
                   <div class="progress-percentage">
-                    <span>60%</span>
+                    <span>{{this.pourcentage}}%</span>
                   </div>
                 </div>
                 <div class="progress">
                   <div
                     class="progress-bar bg-primary"
                     role="progressbar"
-                    aria-valuenow="60"
+                    aria-valuenow="this.pourcentage;"
+                    transition="width 5s ease"
                     aria-valuemin="0"
                     aria-valuemax="100"
-                    style="width: 60%;"
+                    v-bind:style="{width: this.pourcentage + '%'}"
                   ></div>
                 </div>
               </div>
               <div class="w-100"></div>
-              <div class="col text-left mt-5" style="left: 5.5%;">
-                <h2 v-if="loaded">{{this.currentParty[0].fields.name_event}}</h2>
-              </div>
-              
+
               <div class="w-100"></div>
 
-              
-              <div class="w-100"></div>
               <div class="col text-left mt-5" style="left: 5.5%;">
-                <h4>
-                  When:
-                  <strong v-if="loaded">{{this.currentParty[0].fields.start_date}}</strong>
-                </h4>
-              </div>
-
-              <div class="col text-left mt-5">
                 <h4>
                   Style:
                   <strong v-if="loaded">{{this.currentParty[0].fields.theme_event}}</strong>
                 </h4>
               </div>
 
+              <div class="col text-left mt-5">
+                <h4>
+                  Date:
+                  <strong v-if="loaded">{{this.currentParty[0].fields.start_date}}</strong>
+                </h4>
+              </div>
+
               <div class="w-100"></div>
-              
+
               <div class="col text-left mt-5" style="left: 5.5%;">
                 <h4>
                   Price:
@@ -75,10 +78,18 @@
                 </h4>
               </div>
 
-              <div class="col text-center mt-3" >
-                <button type="button" class="btn btn-outline-success">Buy Tickets</button>
+              <div class="col text-left mt-5">
+                <h4>
+                  Opening hour:
+                  <strong v-if="loaded">20:00</strong>
+                </h4>
               </div>
+              <div class="w-100"></div>
 
+              <div class="col text-left mt-3" style="left: 5.5%;">
+                <button v-on:click="registerToParty" type="button" class="btn btn-outline-success">Buy Tickets</button>
+              </div>
+    
               <div class="w-100"></div>
 
               <div class="col text-left mt-5" style="left: 5.5%; padding-right: 10%;">
@@ -86,6 +97,7 @@
                   <strong v-if="loaded">{{this.currentParty[0].fields.description_event}}</strong>
                 </p>
               </div>
+              
             </div>
           </div>
         </card>
@@ -100,6 +112,7 @@ import GoogleMap from "../components/GoogleMap.vue";
 import header from "../layout/AppHeaderReveler.vue";
 import footer from "../layout/AppFooter.vue";
 import { setTimeout } from "timers";
+import Swal from 'sweetalert2';
 
 export default {
   components: {
@@ -109,14 +122,17 @@ export default {
   },
   data: function() {
     return {
+      autocomplete: null,
       loading: false,
       loaded: false,
       currentParty: [],
+      pourcentage: null,
       distance: this.$store.state.distance
     };
   },
   beforeMount: function() {
     this.getParty(this.$route.params.partyId);
+    //this.getNbParticipations(this.$route.params.partyId);
   },
   mounted: function() {
     var _this = this;
@@ -135,6 +151,14 @@ export default {
   },
 
   methods: {
+    registerToParty: function(){
+      Swal.fire({
+        title: 'Enjoy !',
+        text: 'Votre participation a bien été enregistrée',
+        type: 'success',
+        confirmButtonText: 'Cool'
+      })
+    },
     getParty: function(id) {
       var json = { id_event: id };
       this.loading = true;
@@ -153,9 +177,37 @@ export default {
           this.loading = false;
           _this.loaded = true;
           this.currentParty = response.data;
-
+          _this.getNbParticipations(_this.$route.params.partyId);
           _this.$refs.GoogleMap.displayRoute(
             this.currentParty[0].fields.address_event
+          );
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err);
+        });
+    },
+    getNbParticipations: function(id) {
+      console.log("bonjour", id);
+      var json = { id_event: id };
+      this.loading = true;
+      var _this = this;
+      this.$http
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/eventParticipations",
+          json,
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(response => {
+          this.loading = false;
+          _this.loaded = true;
+          var participations = response.data.length;
+          _this.pourcentage = Math.floor(
+            (participations / _this.currentParty[0].fields.size_hosting) * 100
           );
         })
         .catch(err => {
