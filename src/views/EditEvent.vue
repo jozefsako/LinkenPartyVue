@@ -23,6 +23,9 @@
                 </div>
                 <form role="form" @submit.prevent="submitEditEvent">
                   <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Name:</small>
+                    </div>
                     <base-input
                       id="name_event"
                       name="name_event"
@@ -36,6 +39,10 @@
                       :class="{ 'is-invalid': submitted && errors.has('name_event')}"
                     ></base-input>
                   </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Theme:</small>
+                    </div>
                   <base-input
                     id="theme_event"
                     name="theme_event"
@@ -48,6 +55,7 @@
                     v-validate="'required'"
                     :class="{ 'is-invalid': submitted && errors.has('theme_event')}"
                   ></base-input>
+                  </div>
                   <div class="form-group">
                     <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
                       <div>
@@ -72,6 +80,10 @@
                       </div>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Start date:</small>
+                    </div>
                   <vue-ctk-date-time-picker
                     id="start_date"
                     name="start_date"
@@ -85,6 +97,11 @@
                     v-validate="'required'"
                     :class="{ 'is-invalid': submitted && errors.has('start_date')}"
                   ></vue-ctk-date-time-picker>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">End date:</small>
+                    </div>
                   <vue-ctk-date-time-picker
                     id="end_date"
                     name="end_date"
@@ -98,6 +115,11 @@
                     v-validate="'required'"
                     :class="{ 'is-invalid': submitted && errors.has('end_date')}"
                   ></vue-ctk-date-time-picker>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Price:</small>
+                    </div>
                   <base-input
                     id="price"
                     name="price"
@@ -112,6 +134,11 @@
                     v-validate="'required'"
                     :class="{ 'is-invalid': submitted && errors.has('price')}"
                   ></base-input>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Address:</small>
+                    </div>
                   <vueGoogleAutocomplete
                     ref="address_event"
                     id="map"
@@ -120,6 +147,11 @@
                     v-on:placechanged="getAddressData"
                     v-model="event.address_event"
                   ></vueGoogleAutocomplete>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Size hosting:</small>
+                    </div>
                   <base-input
                     id="size_hosting"
                     name="size_hosting"
@@ -133,6 +165,11 @@
                     v-validate="'required'"
                     :class="{ 'is-invalid': submitted && errors.has('size_hosting')}"
                   ></base-input>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <small class="text-uppercase font-weight-bold">Description:</small>
+                    </div>
                   <base-input
                     id="description"
                     name="description"
@@ -145,6 +182,7 @@
                     v-validate="'required'"
                     :class="{ 'is-invalid': submitted && errors.has('description_event')}"
                   ></base-input>
+                  </div>
                   <div class="text-center">
                     <button class="btn btn-primary">Edit</button>
                   </div>

@@ -41,8 +41,8 @@
             <td v-if="event.fields.price === null">Free</td>
             <td v-else>{{(event.fields.price).toFixed(2)}}€</td>
             <td>
-              <div class="d-flex align-items-center">
-                <span 
+              <div class="d-flex align-items-center" >
+                <span v-bind:class="updateState(event.pk,event.fields.state_event)"
                   v-if="event.fields.state_event==='Confirmed'"
                   class="badge badge-pill badge-success"
                 >Confirmed</span>
@@ -148,7 +148,6 @@ export default {
           }
         )
         .then(response => {
-          console.log("okkkk");
           this.event = response.data[0];
           this.$router.push("/homeOrganizer");
           console.log(response);
