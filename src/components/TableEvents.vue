@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="event in events" :key="event.id">
+          <router-link :to="{path: '/partyDetails/'+ event.pk}" tag="tr" v-for="event in events" :key="event.pk" class="row-style" style=":hover {background: yellow}">
             <th scope="row">
               <div class="media align-items-center">
                 <div class="media-body">
@@ -30,16 +30,17 @@
                 </div>
               </div>
             </th>
-            <td>{{reformatDate(event.fields.start_date)}}</td>
-            <td>{{(event.fields.price).toFixed(2)}}€</td>
-            <td>
-              <div class="avatar-group"></div>
+            <td v-if="event.fields.start_date === null"></td>
+            <td v-else>{{reformatDate(event.fields.start_date)}}</td>
+            <td v-if="event.fields.price === null">Free</td>
+            <td v-else>{{(event.fields.price).toFixed(2)}}€</td>
+            <td v-if="loaded">
+                {{}}%
             </td>
             <td>
               <div class="d-flex align-items-center">
-                {{checkState(event.fields.state_event)}}
                 <span
-                  v-if="deleted"
+                  v-if="event.fields.state_event==='Confirmed'"
                   class="badge badge-pill badge-success"
                 >Confirmed</span>
                 <span v-else class="badge badge-pill badge-danger">Canceled</span>
@@ -58,9 +59,13 @@
               </div>
             </td>
             <td class="text-right">
-             <button type="button" class="btn btn-primary btn-sm">Cancel</button>
+              <button
+                v-on:click="updateState(event.pk)"
+                type="button"
+                class="btn btn-primary btn-sm"
+              >Cancel</button>
             </td>
-          </tr>
+          </router-link>
         </tbody>
       </table>
     </div>
@@ -77,15 +82,19 @@ export default {
       date: "",
       loaded: false,
       deleted: false,
+      pourcentage: "",
       events: []
     };
   },
   beforeMount: function() {
     this.getEvents(this.$store.getters.currentIdUser);
+
+    //this.getParticipations(event.pk, event.fields.size_hosting)
   },
   methods: {
     getEvents: function(id) {
       var json = { id_user: id };
+      var _this = this;
       this.$http
         .post(
           "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/userEvents",
@@ -99,6 +108,10 @@ export default {
         .then(response => {
           this.events = response.data;
           console.log(this.events);
+          for(var i=0;i<this.events.length;i++){
+            _this.getParticipations(this.events[i].pk,this.events[i].fields.size_hosting)
+            
+          }
           this.loaded = true;
         })
         .catch(err => {
@@ -116,7 +129,43 @@ export default {
       } else {
         this.deleted = true;
       }
-    }
+    },
+    updateState(id) {
+      console.log(id);
+    },
+    getParticipations(id, size) {
+      var json = { id_event: id };
+      var _this = this;
+      this.$http
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/eventParticipations",
+          json,
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(response => {        
+          _this.pourcentage = Math.floor(
+            (response.data.length / size) * 100
+          );
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err);
+        });
+          this.loaded = true;
+        console.log(this.$http);
+    },
   }
 };
 </script>
+<style>
+.row-style:hover{
+
+  background-color: #f4f5f7;
+  cursor: pointer
+
+}
+</style>
