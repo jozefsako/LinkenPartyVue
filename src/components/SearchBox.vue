@@ -22,7 +22,7 @@
                                 <div>
                                     <span class="badge badge-pill badge-primary">{{item.fields.theme_event}}</span>
                                 </div>
-                                <router-link :to="{ path: '/partyDetails/'+ item.fields.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
+                                <router-link :to="{ path: '/partyDetails/'+ item.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                     <div>
                                         <span class="badge badge-pill badge-primary">{{item.fields.theme_event}}</span>
                                     </div>
-                                    <router-link :to="{ path: '/partyDetails/'+ item.fields.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
+                                    <router-link :to="{ path: '/partyDetails/'+ item.pk}"  class="btn btn-primary mt-4" role="link">Learn more</router-link>
                                 </div>
                             </div>
                         </div>
