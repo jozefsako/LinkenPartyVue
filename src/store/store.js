@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
         parties: [],
         adresses: [],
         distance : "",
-        currentParty: []
+        currentParty: [],
+        currentIdUser: ""
     },
     mutations: {
       addParty(state, party) {
@@ -22,12 +23,16 @@ export const store = new Vuex.Store({
       },
       changeParty(state, currentParty){
         state.currentParty = currentParty;
+      },
+      changeCurrentIdUser(state, id){
+        state.currentIdUser = id;
       }
     },
     getters: {
       parties: state => state.parties,
       adresses: state => state.adresses,
       distance: state => state.distance,
-      party: state => state.currentparty
+      party: state => state.currentparty,
+      currentIdUser: state => state.currentIdUser
     }
 });

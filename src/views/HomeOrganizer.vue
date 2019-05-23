@@ -12,27 +12,9 @@
                 <span></span>
             </div>
         </section>
-        <section class="section section-skew">
+        <section class="section section-skew">  
             <div class="container">
-                <card shadow class="card-profile mt--300" no-body>
-                    <div class="px-4">
-                        <div class="row justify-content-center">
-                            <GoogleMap></GoogleMap>
-                        </div>
-                        <div class="text-center mt-5">
-                            <h3>Tendance</h3>                        
-                            <PartyList></PartyList>
-                        </div>
-                        <div class="mt-5 py-5 border-top text-center">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-9">
-                                    <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</p>
-                                    <a href="#">Show more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </card>
+                <TableEvents></TableEvents>
             </div>
         </section>
         <my-footer></my-footer>
@@ -42,6 +24,7 @@
 
 import GoogleMap from '../components/GoogleMap.vue'
 import PartyList from '../components/PartyList.vue'
+import TableEvents from "../components/TableEvents.vue"
 import header from "../layout/AppHeaderOrganizer.vue"
 import footer from "../layout/AppFooter.vue"
 
@@ -51,6 +34,7 @@ export default {
   components:{
       GoogleMap,
       PartyList,
+      TableEvents,
       'my-header': header,
       'my-footer': footer
   },

@@ -41,7 +41,7 @@ export default {
     }
   },
   beforeMount: function(){
-    this.getParties();  
+    this.getParties();
   },
   
   updated: function(){

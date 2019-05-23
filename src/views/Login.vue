@@ -112,6 +112,7 @@ export default {
           this.user = response.data[0];
           console.log(response.data[0].pk);
           console.log(response.data);
+          this.$store.commit("changeCurrentIdUser", response.data[0].pk);
           if (response.data[0].fields.type_user === "O") {
             this.$router.push("homeOrganizer");
           } else {

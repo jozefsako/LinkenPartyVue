@@ -6,7 +6,11 @@ import HomeOrganizer from "./views/HomeOrganizer.vue"
 import HomeReveler from "./views/HomeReveler.vue"
 import PartyDetails from "./components/PartyDetails.vue"
 import AddEvent from "./views/AddEvent.vue"
+<<<<<<< HEAD
 import EditEvent from "./views/EditEvent.vue"
+=======
+import UserParticipationsPage from "./components/UserParticipationsPage.vue"
+>>>>>>> 83d3867ea3c4a15a2e5f63e525aa0d28a3cbf60c
 
 Vue.use(VueRouter);
 
@@ -34,7 +38,7 @@ export default new VueRouter({
       component: HomeReveler
     },
     {
-      path: '/addEvent',
+      path: '/addEvent/:userId',
       name: 'AddEvent',
       component: AddEvent
     },
@@ -48,6 +52,12 @@ export default new VueRouter({
       path: '/partyDetails/:partyId',
       name: 'PartyDetails',
       component: PartyDetails,
+      params: true
+    },
+    {
+      path: '/userParticipationsPage/:userId',
+      name: 'UserParticipationsPage',
+      component: UserParticipationsPage,
       params: true
     }
   ],
