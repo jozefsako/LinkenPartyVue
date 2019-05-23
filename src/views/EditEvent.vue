@@ -76,6 +76,7 @@
                     class="mb-3"
                     type="date"
                     data-date
+                    minDate=minDate
                     data-date-format="YYYY-MM-DDThh:mm:ssZ"
                     addon-left-icon="ni ni-badge"
                     v-model="event.start_date"
@@ -189,7 +190,6 @@ export default {
   },
   beforeMount: function() {
     this.getEvent(this.$route.params.partyId);
-    console.log(this.currentEvent);
   },
   mounted: function() {
     this.$refs.address_event.focus();
@@ -205,41 +205,50 @@ export default {
           this.msg = "All the fields are required!";
           this.seen = true;
         } else {
-          this.event.address_event = this.address_event;
-          this.event.lat = parseFloat(String(this.event.address_event.latitude).substring(0,8));
-          this.event.lng = parseFloat(String(this.event.address_event.longitude).substring(0,8))
-          if (this.address_event.route === undefined) {
-            this.address_event.route = "";
-          } else if (this.address_event.street_number === undefined) {
-            this.address_event.street_number = "";
-          } else if (this.address_event.locality === undefined) {
-            this.address_event.locality = "";
-          } else if (this.address_event.postal_code === undefined) {
-            this.address_event.postal_code = "";
-          } else if (this.address_event.administrative_area_level_1 === undefined) {
-            this.address_event.administrative_area_level_1 = "";
-          } else if (this.address_event.countrys === undefined) {
-            this.address_event.country = "";
+          if (this.address_event === undefined) {
+            this.event.lat = this.currentEvent[0].fields.lat;
+            this.event.lng = this.currentEvent[0].fields.lng;
+            this.event.address_event = this.currentEvent[0].address_event;
+          } else {
+            this.event.address_event = this.address_event;
+            this.event.lat = parseFloat(String(this.event.lat).substring(0, 8));
+            this.event.lng = parseFloat(String(this.event.lng).substring(0, 8));
+            if (this.address_event.route === undefined) {
+              this.address_event.route = "";
+            } else if (this.address_event.street_number === undefined) {
+              this.address_event.street_number = "";
+            } else if (this.address_event.locality === undefined) {
+              this.address_event.locality = "";
+            } else if (this.address_event.postal_code === undefined) {
+              this.address_event.postal_code = "";
+            } else if (
+              this.address_event.administrative_area_level_1 === undefined
+            ) {
+              this.address_event.administrative_area_level_1 = "";
+            } else if (this.address_event.countrys === undefined) {
+              this.address_event.country = "";
+            }
+            this.event.address_event =
+              this.address_event.route +
+              " " +
+              this.address_event.street_number +
+              " " +
+              this.address_event.locality +
+              " " +
+              this.address_event.postal_code +
+              " " +
+              this.address_event.administrative_area_level_1 +
+              " " +
+              this.address_event.country;
           }
-          this.event.address_event =
-            this.address_event.route +
-            " " +
-            this.address_event.street_number +
-            " " +
-            this.address_event.locality +
-            " " +
-            this.address_event.postal_code +
-            " " +
-            this.address_event.administrative_area_level_1 +
-            " " +
-            this.address_event.country;
+
           this.event.start_date = moment(this.event.start_date).format(
             "YYYY-MM-DDThh:mm:ssZ"
           );
           this.event.end_date = moment(this.event.end_date).format(
             "YYYY-MM-DDThh:mm:ssZ"
           );
-          this.addEvent();
+          this.editEvent();
         }
       });
     },
@@ -281,8 +290,7 @@ export default {
           this.loading = false;
           _this.loaded = true;
           this.currentEvent = response.data;
-          console.log(response.data);
-          this.event =({
+          this.event = {
             id_user: this.$store.getters.currentIdUser,
             name_event: this.currentEvent[0].fields.name_event,
             theme_event: this.currentEvent[0].fields.theme_event,
@@ -290,15 +298,16 @@ export default {
             end_date: this.currentEvent[0].fields.end_date,
             price: this.currentEvent[0].fields.price,
             address_event: this.currentEvent[0].fields.address_event,
-            lat: this.currentEvent[0].fields.address_event.latitude,
-            lng: this.currentEvent[0].fields.address_event.longitude,
+            lat: this.currentEvent[0].fields.lat,
+            lng: this.currentEvent[0].fields.lng,
             size_hosting: this.currentEvent[0].fields.size_hosting,
             description_event: this.currentEvent[0].fields.description_event,
             state_event: this.currentEvent[0].fields.state_event,
             creation_date: this.currentEvent[0].fields.creation_date,
             version_number: this.currentEvent[0].fields.version_number,
-            type_event: this.currentEvent[0].fields.type_event,
-          });
+            type_event: this.currentEvent[0].fields.type_event
+          },
+          minDate = new Date()
         })
         .catch(err => {
           this.loading = false;

@@ -77,6 +77,7 @@
                     data-date-format="YYYY-MM-DDThh:mm:ssZ"
                     addon-left-icon="ni ni-badge"
                     v-model="event.start_date"
+                    minDate = new Date()
                   ></vue-ctk-date-time-picker>
                   <vue-ctk-date-time-picker
                     id="end_date"
@@ -169,7 +170,7 @@ export default {
         state_event: "Confirmed",
         creation_date: moment(new Date()).format("YYYY-MM-DDThh:mm:ssZ"),
         version_number: 0,
-        type_event: ""
+        type_event: "",
       },
       msg: "All the fields are required!",
       submitted: false,
