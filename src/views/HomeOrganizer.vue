@@ -54,6 +54,9 @@ export default {
       'my-header': header,
       'my-footer': footer
   },
+  displayParties : function(){
+          this.$refs.PartyList.sendParties(this.$refs.PartyList.parties);
+  }
 };
 
 </script>

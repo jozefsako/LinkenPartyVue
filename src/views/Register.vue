@@ -16,9 +16,9 @@
           <card
             type="secondary"
             shadow
-            header-classes="bg-white pb-5"
-            body-classes="px-lg-5 py-lg-5"
-            class="border-0"
+            header-classes="bg-white pb-12"
+            body-classes="px-lg-12 py-lg-12"
+            class="border-12"
           >
             <template>
               <div class="container">
@@ -104,7 +104,7 @@
                       type="tel"
                       class="mb-3"
                       v-model="userRegister.phone"
-                      placeholder="+32000000000"
+                      placeholder="+32/000.00.00.00"
                       addon-left-icon="ni ni-mobile-button"
                       v-validate="'required'"
                       :class="{ 'is-invalid': submitted && errors.has('phone')}"
@@ -152,7 +152,7 @@
                       </div>
                       <div class="col-lg-6 col-sm-6 mt-4 mt-md-0">
                         <section>
-                          <label>Fetard</label>
+                          <label>Reveler</label>
                           <input
                             type="radio"
                             name="type_user"
@@ -213,7 +213,7 @@ export default {
         version_number: 0,
         registration_date: moment(new Date()).format("YYYY-MM-DD")
       },
-      msg: "All the fields are required!",
+      msg: "All the fields are required, or the password doesn't match !",
       submitted: false,
       seen: false
     };
@@ -223,9 +223,12 @@ export default {
       this.submitted = true;
       this.$validator.validate().then(valid => {
         if (!valid) {
-          this.msg = "All the fields are required!";
+          this.msg =
+            "All the fields are required, or the password doesn't match !";
+          console.log(JSON.stringify(this.userRegister));
           this.seen = true;
         } else {
+          this.seen = false;
           this.addUser();
         }
       });

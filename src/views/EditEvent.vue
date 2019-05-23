@@ -19,9 +19,9 @@
             <div class="container pt-lg-md">
               <template>
                 <div class="text-muted text-center mb-3">
-                  <h1 class="display-2 mb-0">Add Event</h1>
+                  <h1 class="display-2 mb-0">Edit Event</h1>
                 </div>
-                <form role="form" @submit.prevent="submitAddEvent">
+                <form role="form" @submit.prevent="submitEditEvent">
                   <div class="form-group">
                     <base-input
                       id="name_event"
@@ -32,6 +32,7 @@
                       v-model="event.name_event"
                       placeholder="Name"
                       addon-left-icon="ni ni-badge"
+                      value="this.currentEvent[0].fields.name_event"
                     ></base-input>
                   </div>
                   <base-input
@@ -58,7 +59,8 @@
                           v-validate="'required'"
                           :class="{ 'is-invalid': submitted && errors.has('type_event')}"
                         >
-                          <option id="concert" value="concert" selected>Concert</option>
+                          <option disabled></option>
+                          <option id="concert" value="concert">Concert</option>
                           <option id="private" value="private">Private</option>
                           <option id="public" value="public">Public</option>
                           <option id="party" value="party">Party</option>
@@ -120,17 +122,18 @@
                     placeholder="size_hosting"
                     addon-left-icon="ni ni-badge"
                   ></base-input>
-                  <textarea
+                  <base-input
                     id="description"
                     name="description"
-                    rows="4"
-                    cols="80"
+                    alternative
+                    class="mb-3"
+                    type="textbox"
                     v-model="event.description_event"
-                    placeholder="Description..."
-                    class="form-control form-control-alternative mb-3"
-                  ></textarea>
+                    placeholder="description"
+                    addon-left-icon="ni ni-badge"
+                  ></base-input>
                   <div class="text-center">
-                    <button class="btn btn-primary">Add</button>
+                    <button class="btn btn-primary">Edit</button>
                   </div>
                 </form>
               </template>
@@ -155,7 +158,7 @@ export default {
   data: function() {
     return {
       event: {
-        id_user: "1",
+        id_user: this.$store.getters.currentIdUser,
         name_event: "",
         theme_event: "",
         start_date: "",
@@ -166,11 +169,13 @@ export default {
         lng: "",
         size_hosting: "",
         description_event: "",
-        state_event: "Confirmed",
-        creation_date: moment(new Date()).format("YYYY-MM-DDThh:mm:ssZ"),
-        version_number: 0,
+        state_event: "",
+        version_number: "",
         type_event: ""
       },
+      currentEvent: [],
+      loading: false,
+      loaded: false,
       msg: "All the fields are required!",
       submitted: false,
       seen: false
@@ -182,6 +187,10 @@ export default {
     "my-header": header,
     "my-footer": footer
   },
+  beforeMount: function() {
+    this.getEvent(this.$route.params.partyId);
+    console.log(this.currentEvent);
+  },
   mounted: function() {
     this.$refs.address_event.focus();
   },
@@ -189,7 +198,7 @@ export default {
     getAddressData: function(addressData, placeResultData, id) {
       this.address_event = addressData;
     },
-    submitAddEvent() {
+    submitEditEvent() {
       this.submitted = true;
       this.$validator.validate().then(valid => {
         if (!valid) {
@@ -207,9 +216,7 @@ export default {
             this.address_event.locality = "";
           } else if (this.address_event.postal_code === undefined) {
             this.address_event.postal_code = "";
-          } else if (
-            this.address_event.administrative_area_level_1 === undefined
-          ) {
+          } else if (this.address_event.administrative_area_level_1 === undefined) {
             this.address_event.administrative_area_level_1 = "";
           } else if (this.address_event.countrys === undefined) {
             this.address_event.country = "";
@@ -236,7 +243,7 @@ export default {
         }
       });
     },
-    addEvent: function() {
+    editEvent: function() {
       this.$http
         .post(
           "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/addEvent",
@@ -253,6 +260,48 @@ export default {
           console.log(response);
         })
         .catch(err => {
+          console.log(err);
+        });
+    },
+    getEvent: function(id) {
+      var json = { id_event: id };
+      this.loading = true;
+      var _this = this;
+      this.$http
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/events/",
+          json,
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(response => {
+          this.loading = false;
+          _this.loaded = true;
+          this.currentEvent = response.data;
+          console.log(response.data);
+          this.event =({
+            id_user: this.$store.getters.currentIdUser,
+            name_event: this.currentEvent[0].fields.name_event,
+            theme_event: this.currentEvent[0].fields.theme_event,
+            start_date: this.currentEvent[0].fields.start_date,
+            end_date: this.currentEvent[0].fields.end_date,
+            price: this.currentEvent[0].fields.price,
+            address_event: this.currentEvent[0].fields.address_event,
+            lat: this.currentEvent[0].fields.address_event.latitude,
+            lng: this.currentEvent[0].fields.address_event.longitude,
+            size_hosting: this.currentEvent[0].fields.size_hosting,
+            description_event: this.currentEvent[0].fields.description_event,
+            state_event: this.currentEvent[0].fields.state_event,
+            creation_date: this.currentEvent[0].fields.creation_date,
+            version_number: this.currentEvent[0].fields.version_number,
+            type_event: this.currentEvent[0].fields.type_event,
+          });
+        })
+        .catch(err => {
+          this.loading = false;
           console.log(err);
         });
     }

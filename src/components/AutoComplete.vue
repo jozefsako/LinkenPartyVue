@@ -1,12 +1,11 @@
 <template>
     <div>
         <vueGoogleAutocomplete
-            ref="address"
+            ref="address_event"
             id="map"
             classname="form-control"
             placeholder="Please type your address"
             v-on:placechanged="getAddressData"
-            country="sg"
         >
         </vueGoogleAutocomplete>
     </div>
@@ -22,15 +21,16 @@ import VueGoogleAutocomplete from 'vue-google-autocomplete';
  
         data: function () {
             return {
-              address: ''
+              address_event: ''
             }
         },
  
         mounted: function (){
             // To demonstrate functionality of exposed component functions
             // Here we make focus on the user input
-            this.$refs.address.focus();
-        },
+            this.$refs.address_event.focus();
+            console.log(this.address_event);
+         },
  
         methods: {
             /**
@@ -40,7 +40,7 @@ import VueGoogleAutocomplete from 'vue-google-autocomplete';
             * @param {String} id Input container ID
             */
             getAddressData: function (addressData, placeResultData, id) {
-                this.address = addressData;
+                this.address_event = addressData;
             }
         }
     }

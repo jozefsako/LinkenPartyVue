@@ -6,6 +6,7 @@ import HomeOrganizer from "./views/HomeOrganizer.vue"
 import HomeReveler from "./views/HomeReveler.vue"
 import PartyDetails from "./components/PartyDetails.vue"
 import AddEvent from "./views/AddEvent.vue"
+import EditEvent from "./views/EditEvent.vue"
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,12 @@ export default new VueRouter({
       path: '/addEvent',
       name: 'AddEvent',
       component: AddEvent
+    },
+    {
+      path: '/editEvent/:partyId',
+      name: 'EditEvent',
+      component: EditEvent,
+      params: true
     },
     {
       path: '/partyDetails/:partyId',
