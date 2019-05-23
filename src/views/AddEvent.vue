@@ -155,7 +155,7 @@ export default {
   data: function() {
     return {
       event: {
-        id_user: "1",
+        id_user: this.$store.getters.currentIdUser,
         name_event: "",
         theme_event: "",
         start_date: "",
@@ -249,7 +249,7 @@ export default {
         )
         .then(response => {
           this.event = response.data[0];
-          this.$router.push("homeOrganizer");
+          this.$router.push("/homeOrganizer");
           console.log(response);
         })
         .catch(err => {

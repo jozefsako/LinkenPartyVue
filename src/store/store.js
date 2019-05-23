@@ -9,7 +9,9 @@ export const store = new Vuex.Store({
         adresses: [],
         distance : "",
         currentParty: [],
-        currentIdUser: ""
+        currentIdUser: "",
+        currentPositionLat : "",
+        currentPositionLng : ""
     },
     mutations: {
       addParty(state, party) {
@@ -26,6 +28,12 @@ export const store = new Vuex.Store({
       },
       changeCurrentIdUser(state, id){
         state.currentIdUser = id;
+      },
+      changeLat(state, lat){
+        state.currentPositionLat = lat;
+      },
+      changeLng(state, lng){
+        state.currentPositionLng = lng;
       }
     },
     getters: {
@@ -33,6 +41,8 @@ export const store = new Vuex.Store({
       adresses: state => state.adresses,
       distance: state => state.distance,
       party: state => state.currentparty,
-      currentIdUser: state => state.currentIdUser
+      currentIdUser: state => state.currentIdUser,
+      lat: state => state.currentPositionLat,
+      lng: state => state.currentPositionLng
     }
 });

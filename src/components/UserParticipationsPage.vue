@@ -20,7 +20,7 @@
                   <h3>Participations</h3>
               <div class="col-lg-12" style="padding: 0 !important;">
                 <div class="row row-grid list-party">
-                  <div v-for="event in events" :key="event.id" class="col-lg-4">
+                  <div  v-for="event in events" :key="event.id" class="col-lg-4">
                     <div class="card card-lift--hover shadow border-0" style="margin-bottom: 30px;">
                       <div class="card-body py-3">
                         <div class="icon icon-shape icon-shape-primary rounded-circle mb-4">
@@ -31,7 +31,7 @@
                           class="description mt-3"
                           style="max-height: 100px; min-height: 100px;"
                         >{{event.fields.description_event}}</p>
-                        <h5 class="description mt-3">{{event.fields.address_event}}</h5>
+                        <h5 class="description mt-3" style="min-height: 36px; max-height: 36px;">{{event.fields.address_event}}</h5>
                         <div>
                           <span class="badge badge-pill badge-primary">{{event.fields.theme_event}}</span>
                         </div>

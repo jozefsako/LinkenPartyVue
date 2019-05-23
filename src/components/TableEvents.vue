@@ -1,7 +1,7 @@
 <template>
   <div class="card shadow card-profile mt--300">
     <div class="card-header border-0">
-      <h3 class="mb-0">Evenements</h3>
+      <h3 class="mb-0">Events</h3>
       <router-link
         :to="{ path: '/addEvent/'+ this.$store.getters.currentIdUser}"
         style="float: right;"
@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <router-link :to="{path: '/partyDetails/'+ event.pk}" tag="tr" v-for="event in events" :key="event.pk" class="row-style" style=":hover {background: yellow}">
+          <router-link :to="{path: '/editEvent/'+ event.pk}" tag="tr" v-for="event in events" :key="event.pk" class="row-style" style=":hover {background: yellow}">
             <th scope="row">
               <div class="media align-items-center">
                 <div class="media-body">
@@ -93,6 +93,7 @@ export default {
   },
   methods: {
     getEvents: function(id) {
+      console.log(id);
       var json = { id_user: id };
       var _this = this;
       this.$http
@@ -109,8 +110,7 @@ export default {
           this.events = response.data;
           console.log(this.events);
           for(var i=0;i<this.events.length;i++){
-            _this.getParticipations(this.events[i].pk,this.events[i].fields.size_hosting)
-            
+            _this.getParticipations(this.events[i].pk,this.events[i].fields.size_hosting);           
           }
           this.loaded = true;
         })
@@ -156,7 +156,6 @@ export default {
           console.log(err);
         });
           this.loaded = true;
-        console.log(this.$http);
     },
   }
 };

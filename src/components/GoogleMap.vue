@@ -12,7 +12,8 @@ export default {
   data: function() {
     return {
       mapName: this.name + "-map",
-      partyList: []
+      partyList: [],
+      currentPosition: null
     };
   },
   mounted: function() {
@@ -28,6 +29,7 @@ export default {
   },
   methods: {
     displayCurrentPosition: function() {
+      var _this = this;
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           initialLocation = new google.maps.LatLng(
@@ -40,9 +42,12 @@ export default {
             map: map,
             animation: google.maps.Animation.DROP
           });
+          _this.$store.commit("changeLat", initialLocation.lat);
+          _this.$store.commit("changeLng", initialLocation.lng);
           marker.setMap(map);
         });
       }
+      this.currentPosition = initialLocation;
     },
     displayMarkers: function() {
       var parties = this.$store.getters.parties;
