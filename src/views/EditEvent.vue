@@ -32,7 +32,8 @@
                       v-model="event.name_event"
                       placeholder="Name"
                       addon-left-icon="ni ni-badge"
-                      value="this.currentEvent[0].fields.name_event"
+                      v-validate="'required'"
+                      :class="{ 'is-invalid': submitted && errors.has('name_event')}"
                     ></base-input>
                   </div>
                   <base-input
@@ -44,6 +45,8 @@
                     v-model="event.theme_event"
                     placeholder="theme_event"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('theme_event')}"
                   ></base-input>
                   <div class="form-group">
                     <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
@@ -76,10 +79,11 @@
                     class="mb-3"
                     type="date"
                     data-date
-                    minDate=minDate
                     data-date-format="YYYY-MM-DDThh:mm:ssZ"
                     addon-left-icon="ni ni-badge"
                     v-model="event.start_date"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('start_date')}"
                   ></vue-ctk-date-time-picker>
                   <vue-ctk-date-time-picker
                     id="end_date"
@@ -91,6 +95,8 @@
                     data-date-format="YYYY-MM-DDThh:mm:ssZ"
                     addon-left-icon="ni ni-badge"
                     v-model="event.end_date"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('end_date')}"
                   ></vue-ctk-date-time-picker>
                   <base-input
                     id="price"
@@ -103,6 +109,8 @@
                     min="0"
                     step="any"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('price')}"
                   ></base-input>
                   <vueGoogleAutocomplete
                     ref="address_event"
@@ -122,6 +130,8 @@
                     v-model="event.size_hosting"
                     placeholder="size_hosting"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('size_hosting')}"
                   ></base-input>
                   <base-input
                     id="description"
@@ -132,6 +142,8 @@
                     v-model="event.description_event"
                     placeholder="description"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('description_event')}"
                   ></base-input>
                   <div class="text-center">
                     <button class="btn btn-primary">Edit</button>
@@ -159,6 +171,7 @@ export default {
   data: function() {
     return {
       event: {
+        id_event: this.$route.params.partyId,
         id_user: this.$store.getters.currentIdUser,
         name_event: "",
         theme_event: "",
@@ -255,7 +268,7 @@ export default {
     editEvent: function() {
       this.$http
         .post(
-          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/addEvent",
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/updateEvent",
           JSON.stringify(this.event),
           {
             headers: {
@@ -265,7 +278,7 @@ export default {
         )
         .then(response => {
           this.event = response.data[0];
-          this.$router.push("homeOrganizer");
+          this.$router.push("/homeOrganizer");
           console.log(response);
         })
         .catch(err => {
@@ -291,6 +304,7 @@ export default {
           _this.loaded = true;
           this.currentEvent = response.data;
           this.event = {
+            id_event: this.$route.params.partyId,
             id_user: this.$store.getters.currentIdUser,
             name_event: this.currentEvent[0].fields.name_event,
             theme_event: this.currentEvent[0].fields.theme_event,
@@ -306,8 +320,7 @@ export default {
             creation_date: this.currentEvent[0].fields.creation_date,
             version_number: this.currentEvent[0].fields.version_number,
             type_event: this.currentEvent[0].fields.type_event
-          },
-          minDate = new Date()
+          };
         })
         .catch(err => {
           this.loading = false;
