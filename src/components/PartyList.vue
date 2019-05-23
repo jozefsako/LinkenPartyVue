@@ -3,7 +3,7 @@
     <div class="select-container">
       Distance:
       <select v-model="selected" @change="getParties()">
-        <option disabled value>Distance:</option>
+        <option selected>5</option>
         <option>10</option>
         <option>50</option>
         <option>100</option>
@@ -20,7 +20,10 @@
             <h6 class="text-primary text-uppercase">{{party.fields.name_event}}</h6>
             <p
               class="description mt-3"
-              style="max-height: 100px; min-height: 100px;"
+              style="max-height: 100px; min-height: 100px; white-space: preline; 
+              height: 100px; 
+              overflow: hidden;
+              text-overflow: ellipsis; "
             >{{party.fields.description_event}}</p>
             <h5
               class="description mt-3"
@@ -111,13 +114,14 @@ export default {
 
 <style>
 .list-party {
-  padding-top: 25px;
+  padding-top: 55px;
   padding-bottom: 25px;
 }
 
 .select-container{
   position:absolute;
   left: 20px;
+  margin-bottom: 30px;
 }
 </style>
 

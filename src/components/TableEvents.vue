@@ -16,7 +16,6 @@
             <th scope="col">Title</th>
             <th scope="col">Date</th>
             <th scope="col">Price</th>
-            <th scope="col">Participations</th>
             <th scope="col">State</th>
             <th scope="col"></th>
           </tr>
@@ -41,7 +40,6 @@
             <td v-else>{{reformatDate(event.fields.start_date)}}</td>
             <td v-if="event.fields.price === null">Free</td>
             <td v-else>{{(event.fields.price).toFixed(2)}}€</td>
-            <td v-if="loaded">{{}}%</td>
             <td>
               <div class="d-flex align-items-center">
                 <span 
@@ -97,6 +95,7 @@ export default {
   methods: {
     getEvents: function(id) {
       var json = { id_user: id };
+      console.log(json);
       var _this = this;
       this.$http
         .post(
@@ -109,6 +108,7 @@ export default {
           }
         )
         .then(response => {
+          console.log(response.data);
           this.events = response.data;
           console.log(this.events);
           for (var i = 0; i < this.events.length; i++) {
