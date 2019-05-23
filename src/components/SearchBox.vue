@@ -3,7 +3,7 @@
 <ais-instant-search
     :search-client="searchClient"
     index-name="name_events">
-    <div class="active-cyan-4 mb-4" style="padding-top:20px">
+    <div  @click="clearIndexes" class="active-cyan-4 mb-4" style="padding-top:20px">
         <ais-search-box placeholder="Search name events"></ais-search-box>
     </div>
     <ais-hits>
@@ -74,9 +74,8 @@ const algoliaClient = algoliasearch(
 );
 
 const indexClientT = algoliaClient.initIndex('theme_events');
-indexClientT.clearIndex();
 const indexClientN = algoliaClient.initIndex('name_events');
-indexClientN.clearIndex();
+
 
 const searchClient = {
   async search(requests) {
@@ -121,7 +120,7 @@ export default {
     },
 
     beforeMount: function(){
-        this.fetchEventsFromDatabase();
+        
         //this.updateAlgolia();  
   },
 
@@ -144,7 +143,12 @@ export default {
         updateAlgolia: function(events){
             indexClientT.addObjects(events);
             indexClientN.addObjects(events);
-        }
+        },
+        clearIndexes: function(events){
+            indexClientT.clearIndex();
+            indexClientN.clearIndex();
+            this.fetchEventsFromDatabase();
+        },
     }
 };
 
