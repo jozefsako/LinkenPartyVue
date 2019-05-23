@@ -22,7 +22,7 @@
                         <button v-on:click="displayParties" type="button" class="btn btn-outline-primary" style="position: absolute;left: 8%; margin-top: 1%;">Display Events</button>
                         <searchBox></searchBox>
                         <div class="text-center mt-5">
-                            <h3>Tendance</h3>                        
+                            <h3>Events Nearby</h3>                        
                             <PartyList ref='PartyList'></PartyList>
                         </div>
                         <div class="mt-5 py-5 border-top text-center">
@@ -59,8 +59,7 @@ export default {
   methods : {
       displayParties : function(){
           this.$refs.PartyList.sendParties(this.$refs.PartyList.parties);
-          this.$refs.GoogleMap.displayMarkers();
-          
+          this.$refs.GoogleMap.displayMarkers();          
       }
   }
 };
