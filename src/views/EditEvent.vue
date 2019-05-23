@@ -254,7 +254,6 @@ export default {
               " " +
               this.address_event.country;
           }
-
           this.event.start_date = moment(this.event.start_date).format(
             "YYYY-MM-DDThh:mm:ssZ"
           );

@@ -209,13 +209,7 @@ export default {
         if (!valid) {
           this.msg = "All the fields are required!";
           this.seen = true;
-          console.log(JSON.stringify(this.event));
-          console.log(this.address_event);
-          console.log("putaiiiin");
         } else {
-          console.log("okkkkkk j'suis bon");
-          console.log(JSON.stringify(this.event));
-          console.log(this.address_event);
           this.event.address_event = this.address_event;
           this.event.lat = parseFloat(
             String(this.event.address_event.latitude).substring(0, 8)

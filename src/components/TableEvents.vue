@@ -22,7 +22,14 @@
           </tr>
         </thead>
         <tbody>
-          <router-link :to="{path: '/editEvent/'+ event.pk}" tag="tr" v-for="event in events" :key="event.pk" class="row-style" style=":hover {background: yellow}">
+          <router-link
+            :to="{path: '/editEvent/'+ event.pk}"
+            tag="tr"
+            v-for="event in events"
+            :key="event.pk"
+            class="row-style"
+            style=":hover {background: yellow}"
+          >
             <th scope="row">
               <div class="media align-items-center">
                 <div class="media-body">
@@ -34,12 +41,10 @@
             <td v-else>{{reformatDate(event.fields.start_date)}}</td>
             <td v-if="event.fields.price === null">Free</td>
             <td v-else>{{(event.fields.price).toFixed(2)}}€</td>
-            <td v-if="loaded">
-                {{}}%
-            </td>
+            <td v-if="loaded">{{}}%</td>
             <td>
               <div class="d-flex align-items-center">
-                <span
+                <span 
                   v-if="event.fields.state_event==='Confirmed'"
                   class="badge badge-pill badge-success"
                 >Confirmed</span>
@@ -60,7 +65,7 @@
             </td>
             <td class="text-right">
               <button
-                v-on:click="updateState(event.pk)"
+                v-on:click.stop="updateState(event.pk,event.fields.state_event)"
                 type="button"
                 class="btn btn-primary btn-sm"
               >Cancel</button>
@@ -88,12 +93,9 @@ export default {
   },
   beforeMount: function() {
     this.getEvents(this.$store.getters.currentIdUser);
-
-    //this.getParticipations(event.pk, event.fields.size_hosting)
   },
   methods: {
     getEvents: function(id) {
-      console.log(id);
       var json = { id_user: id };
       var _this = this;
       this.$http
@@ -109,8 +111,11 @@ export default {
         .then(response => {
           this.events = response.data;
           console.log(this.events);
-          for(var i=0;i<this.events.length;i++){
-            _this.getParticipations(this.events[i].pk,this.events[i].fields.size_hosting);           
+          for (var i = 0; i < this.events.length; i++) {
+            _this.getParticipations(
+              this.events[i].pk,
+              this.events[i].fields.size_hosting
+            );
           }
           this.loaded = true;
         })
@@ -130,8 +135,28 @@ export default {
         this.deleted = true;
       }
     },
-    updateState(id) {
-      console.log(id);
+    updateState(id,state) {
+      var json = { id_event: id, state_event: state };
+      this.$http
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/updateStateEvent",
+          JSON.stringify(json),
+          {
+            headers: {
+              Accept: "application/json"
+            }
+          }
+        )
+        .then(response => {
+          console.log("okkkk");
+          this.event = response.data[0];
+          this.$router.push("/homeOrganizer");
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(json);
+          console.log(err);
+        });
     },
     getParticipations(id, size) {
       var json = { id_event: id };
@@ -146,25 +171,21 @@ export default {
             }
           }
         )
-        .then(response => {        
-          _this.pourcentage = Math.floor(
-            (response.data.length / size) * 100
-          );
+        .then(response => {
+          _this.pourcentage = Math.floor((response.data.length / size) * 100);
         })
         .catch(err => {
           this.loading = false;
           console.log(err);
         });
-          this.loaded = true;
-    },
+      this.loaded = true;
+    }
   }
 };
 </script>
 <style>
-.row-style:hover{
-
+.row-style:hover {
   background-color: #f4f5f7;
-  cursor: pointer
-
+  cursor: pointer;
 }
 </style>
