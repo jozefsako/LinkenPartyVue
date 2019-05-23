@@ -20,7 +20,10 @@
             <h6 class="text-primary text-uppercase">{{party.fields.name_event}}</h6>
             <p
               class="description mt-3"
-              style="max-height: 100px; min-height: 100px;"
+              style="max-height: 100px; min-height: 100px; white-space: preline; 
+              height: 100px; 
+              overflow: hidden;
+              text-overflow: ellipsis; "
             >{{party.fields.description_event}}</p>
             <h5
               class="description mt-3"
