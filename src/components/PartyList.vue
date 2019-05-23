@@ -3,7 +3,7 @@
     <div class="select-container">
       Distance:
       <select v-model="selected" @change="getParties()">
-        <option disabled value>Distance:</option>
+        <option selected>5</option>
         <option>10</option>
         <option>50</option>
         <option>100</option>
@@ -111,13 +111,14 @@ export default {
 
 <style>
 .list-party {
-  padding-top: 25px;
+  padding-top: 55px;
   padding-bottom: 25px;
 }
 
 .select-container{
   position:absolute;
   left: 20px;
+  margin-bottom: 30px;
 }
 </style>
 

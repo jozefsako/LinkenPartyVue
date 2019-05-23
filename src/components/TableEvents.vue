@@ -16,7 +16,6 @@
             <th scope="col">Title</th>
             <th scope="col">Date</th>
             <th scope="col">Price</th>
-            <th scope="col">Participations</th>
             <th scope="col">State</th>
             <th scope="col"></th>
           </tr>
@@ -34,9 +33,6 @@
             <td v-else>{{reformatDate(event.fields.start_date)}}</td>
             <td v-if="event.fields.price === null">Free</td>
             <td v-else>{{(event.fields.price).toFixed(2)}}€</td>
-            <td v-if="loaded">
-                {{}}%
-            </td>
             <td>
               <div class="d-flex align-items-center">
                 <span
@@ -60,7 +56,7 @@
             </td>
             <td class="text-right">
               <button
-                v-on:click="updateState(event.pk)"
+                v-on:click.stop="updateState(event.pk)"
                 type="button"
                 class="btn btn-primary btn-sm"
               >Cancel</button>
@@ -95,6 +91,7 @@ export default {
     getEvents: function(id) {
       console.log(id);
       var json = { id_user: id };
+      console.log(json);
       var _this = this;
       this.$http
         .post(
@@ -107,11 +104,9 @@ export default {
           }
         )
         .then(response => {
+          console.log(response.data);
           this.events = response.data;
           console.log(this.events);
-          for(var i=0;i<this.events.length;i++){
-            _this.getParticipations(this.events[i].pk,this.events[i].fields.size_hosting);           
-          }
           this.loaded = true;
         })
         .catch(err => {
@@ -132,31 +127,7 @@ export default {
     },
     updateState(id) {
       console.log(id);
-    },
-    getParticipations(id, size) {
-      var json = { id_event: id };
-      var _this = this;
-      this.$http
-        .post(
-          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/eventParticipations",
-          json,
-          {
-            headers: {
-              Accept: "application/json"
-            }
-          }
-        )
-        .then(response => {        
-          _this.pourcentage = Math.floor(
-            (response.data.length / size) * 100
-          );
-        })
-        .catch(err => {
-          this.loading = false;
-          console.log(err);
-        });
-          this.loaded = true;
-    },
+    }
   }
 };
 </script>
