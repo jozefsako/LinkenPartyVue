@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "acorn": "^6.1.1",
+    "algoliasearch": "^3.33.0",
     "core-js": "^2.6.5",
     "datetime": "0.0.3",
     "express": "^4.16.4",
@@ -27,6 +28,7 @@
     "vue-ctk-date-time-picker": "^2.1.1",
     "vue-datetime": "^1.0.0-beta.10",
     "vue-google-autocomplete": "^1.1.0",
+    "vue-instantsearch": "^2.2.1",
     "vue-lazyload": "^1.2.6",
     "vue-moment": "^4.0.0",
     "vue-resource": "^1.5.1",
