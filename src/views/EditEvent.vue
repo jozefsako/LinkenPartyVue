@@ -32,7 +32,8 @@
                       v-model="event.name_event"
                       placeholder="Name"
                       addon-left-icon="ni ni-badge"
-                      value="this.currentEvent[0].fields.name_event"
+                      v-validate="'required'"
+                      :class="{ 'is-invalid': submitted && errors.has('name_event')}"
                     ></base-input>
                   </div>
                   <base-input
@@ -44,6 +45,8 @@
                     v-model="event.theme_event"
                     placeholder="theme_event"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('theme_event')}"
                   ></base-input>
                   <div class="form-group">
                     <div class="col-lg-5 col-sm-6 mt-4 mt-md-0">
@@ -79,6 +82,8 @@
                     data-date-format="YYYY-MM-DDThh:mm:ssZ"
                     addon-left-icon="ni ni-badge"
                     v-model="event.start_date"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('start_date')}"
                   ></vue-ctk-date-time-picker>
                   <vue-ctk-date-time-picker
                     id="end_date"
@@ -90,6 +95,8 @@
                     data-date-format="YYYY-MM-DDThh:mm:ssZ"
                     addon-left-icon="ni ni-badge"
                     v-model="event.end_date"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('end_date')}"
                   ></vue-ctk-date-time-picker>
                   <base-input
                     id="price"
@@ -102,6 +109,8 @@
                     min="0"
                     step="any"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('price')}"
                   ></base-input>
                   <vueGoogleAutocomplete
                     ref="address_event"
@@ -121,6 +130,8 @@
                     v-model="event.size_hosting"
                     placeholder="size_hosting"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('size_hosting')}"
                   ></base-input>
                   <base-input
                     id="description"
@@ -131,6 +142,8 @@
                     v-model="event.description_event"
                     placeholder="description"
                     addon-left-icon="ni ni-badge"
+                    v-validate="'required'"
+                    :class="{ 'is-invalid': submitted && errors.has('description_event')}"
                   ></base-input>
                   <div class="text-center">
                     <button class="btn btn-primary">Edit</button>
@@ -158,6 +171,7 @@ export default {
   data: function() {
     return {
       event: {
+        id_event: this.$route.params.partyId,
         id_user: this.$store.getters.currentIdUser,
         name_event: "",
         theme_event: "",
@@ -189,7 +203,6 @@ export default {
   },
   beforeMount: function() {
     this.getEvent(this.$route.params.partyId);
-    console.log(this.currentEvent);
   },
   mounted: function() {
     this.$refs.address_event.focus();
@@ -205,48 +218,57 @@ export default {
           this.msg = "All the fields are required!";
           this.seen = true;
         } else {
-          this.event.address_event = this.address_event;
-          this.event.lat = parseFloat(String(this.event.address_event.latitude).substring(0,8));
-          this.event.lng = parseFloat(String(this.event.address_event.longitude).substring(0,8))
-          if (this.address_event.route === undefined) {
-            this.address_event.route = "";
-          } else if (this.address_event.street_number === undefined) {
-            this.address_event.street_number = "";
-          } else if (this.address_event.locality === undefined) {
-            this.address_event.locality = "";
-          } else if (this.address_event.postal_code === undefined) {
-            this.address_event.postal_code = "";
-          } else if (this.address_event.administrative_area_level_1 === undefined) {
-            this.address_event.administrative_area_level_1 = "";
-          } else if (this.address_event.countrys === undefined) {
-            this.address_event.country = "";
+          if (this.address_event === undefined) {
+            this.event.lat = this.currentEvent[0].fields.lat;
+            this.event.lng = this.currentEvent[0].fields.lng;
+            this.event.address_event = this.currentEvent[0].address_event;
+          } else {
+            this.event.address_event = this.address_event;
+            this.event.lat = parseFloat(String(this.event.lat).substring(0, 8));
+            this.event.lng = parseFloat(String(this.event.lng).substring(0, 8));
+            if (this.address_event.route === undefined) {
+              this.address_event.route = "";
+            } else if (this.address_event.street_number === undefined) {
+              this.address_event.street_number = "";
+            } else if (this.address_event.locality === undefined) {
+              this.address_event.locality = "";
+            } else if (this.address_event.postal_code === undefined) {
+              this.address_event.postal_code = "";
+            } else if (
+              this.address_event.administrative_area_level_1 === undefined
+            ) {
+              this.address_event.administrative_area_level_1 = "";
+            } else if (this.address_event.countrys === undefined) {
+              this.address_event.country = "";
+            }
+            this.event.address_event =
+              this.address_event.route +
+              " " +
+              this.address_event.street_number +
+              " " +
+              this.address_event.locality +
+              " " +
+              this.address_event.postal_code +
+              " " +
+              this.address_event.administrative_area_level_1 +
+              " " +
+              this.address_event.country;
           }
-          this.event.address_event =
-            this.address_event.route +
-            " " +
-            this.address_event.street_number +
-            " " +
-            this.address_event.locality +
-            " " +
-            this.address_event.postal_code +
-            " " +
-            this.address_event.administrative_area_level_1 +
-            " " +
-            this.address_event.country;
+
           this.event.start_date = moment(this.event.start_date).format(
             "YYYY-MM-DDThh:mm:ssZ"
           );
           this.event.end_date = moment(this.event.end_date).format(
             "YYYY-MM-DDThh:mm:ssZ"
           );
-          this.addEvent();
+          this.editEvent();
         }
       });
     },
     editEvent: function() {
       this.$http
         .post(
-          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/addEvent",
+          "https://cors-anywhere.herokuapp.com/https://linkenpartydjango.azurewebsites.net/api/updateEvent",
           JSON.stringify(this.event),
           {
             headers: {
@@ -256,7 +278,7 @@ export default {
         )
         .then(response => {
           this.event = response.data[0];
-          this.$router.push("homeOrganizer");
+          this.$router.push("/homeOrganizer");
           console.log(response);
         })
         .catch(err => {
@@ -281,8 +303,8 @@ export default {
           this.loading = false;
           _this.loaded = true;
           this.currentEvent = response.data;
-          console.log(response.data);
-          this.event =({
+          this.event = {
+            id_event: this.$route.params.partyId,
             id_user: this.$store.getters.currentIdUser,
             name_event: this.currentEvent[0].fields.name_event,
             theme_event: this.currentEvent[0].fields.theme_event,
@@ -290,15 +312,15 @@ export default {
             end_date: this.currentEvent[0].fields.end_date,
             price: this.currentEvent[0].fields.price,
             address_event: this.currentEvent[0].fields.address_event,
-            lat: this.currentEvent[0].fields.address_event.latitude,
-            lng: this.currentEvent[0].fields.address_event.longitude,
+            lat: this.currentEvent[0].fields.lat,
+            lng: this.currentEvent[0].fields.lng,
             size_hosting: this.currentEvent[0].fields.size_hosting,
             description_event: this.currentEvent[0].fields.description_event,
             state_event: this.currentEvent[0].fields.state_event,
             creation_date: this.currentEvent[0].fields.creation_date,
             version_number: this.currentEvent[0].fields.version_number,
-            type_event: this.currentEvent[0].fields.type_event,
-          });
+            type_event: this.currentEvent[0].fields.type_event
+          };
         })
         .catch(err => {
           this.loading = false;
