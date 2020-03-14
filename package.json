@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "acorn": "^6.1.1",
+    "acorn": "^6.4.1",
     "algoliasearch": "^3.33.0",
     "core-js": "^2.6.5",
     "datetime": "0.0.3",
