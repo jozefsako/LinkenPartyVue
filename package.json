@@ -13,7 +13,7 @@
     "algoliasearch": "^3.33.0",
     "core-js": "^2.6.5",
     "datetime": "0.0.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "google-autocomplete-vue": "^1.0.17",
     "google-maps": "^3.3.0",
     "json": "^9.0.6",
